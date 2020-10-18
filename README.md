@@ -7,5 +7,5 @@ VPC by Footloose container Machines
 
 ### DelMe
 
-Для экспериментов: 
-IP - 81.163.25.97
+Для экспериментов создан виртуальный сервер `selfmade-vpc-jason`:   
+IP - 188.68.219.26
