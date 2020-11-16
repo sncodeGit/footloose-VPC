@@ -41,3 +41,10 @@ docker_users: []
 
 IGNITE_CNI_VERSION: "v0.8.5"
 IGNITE_ARCH: "amd64"
+
+#############
+# FOOTLOOSE
+#############
+
+FOOTLOOSE_ARCH: "linux-x86_64"
+FOOTLOOSE_VERSION: "0.6.3"

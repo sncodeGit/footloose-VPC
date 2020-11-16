@@ -6,3 +6,4 @@
     - { role: credentials.role, tags: credentials-admins }
     - { role: docker.role, tags: docker-install }
     - { role: ignite.role, tags: ignite-install }
+    - { role: footloose.role, tags: footloose-install }

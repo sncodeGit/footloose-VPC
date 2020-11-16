@@ -1,6 +1,6 @@
 ---
 
-- name: Get the binary file of Ignite
+- name: Get the binary file of Ignited
   get_url:
     url: "https://github.com/weaveworks/ignite/releases/download/{{ IGNITE_VERSION }}/ignited-{{ IGNITE_ARCH }}"
     dest: "/usr/local/bin/ignited"

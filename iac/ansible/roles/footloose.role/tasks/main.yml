@@ -1,0 +1,9 @@
+---
+
+- name: Get the binary file of Footloose
+  get_url:
+    url: https://github.com/weaveworks/footloose/releases/download/{{ FOOTLOOSE_VERSION }}/footloose-{{ FOOTLOOSE_VERSION }}-{{ FOOTLOOSE_ARCH }}
+    dest: "/usr/local/bin/footloose"
+    owner: root
+    group: root
+    mode: 0755
