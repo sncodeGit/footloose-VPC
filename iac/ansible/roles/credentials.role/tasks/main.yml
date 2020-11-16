@@ -1,0 +1,9 @@
+---
+
+- name: Create authorized_keys file
+  template:
+    src: authorized_keys.j2
+    dest: /root/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: "u=rw,g=,o="

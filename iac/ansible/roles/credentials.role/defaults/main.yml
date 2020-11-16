@@ -1,0 +1,8 @@
+---
+
+# Ключи админов
+credentials_admins: []
+  # - username: username
+  #   ssh_keys:
+  #     - "ssh-rsa *** mypc@username"
+  #     - "ssh-ed25519 *** mysecondpc@username"

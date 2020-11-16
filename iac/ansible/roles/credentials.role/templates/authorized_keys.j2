@@ -1,0 +1,5 @@
+{% for admin in credentials_admins %}
+{% for key in admin.ssh_keys %}
+{{ key }}
+{% endfor %}
+{% endfor %}
