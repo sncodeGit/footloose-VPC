@@ -3,4 +3,5 @@
 - hosts: all
   roles:
     - { role: initial.role, tags: initial }
-    - { role: credentials.role, tags: credentials }
+    - { role: credentials.role, tags: credentials-admins }
+    - { role: docker.role, tags: docker-install }
