@@ -9,3 +9,5 @@ VPC by Footloose container Machines
 
 Для экспериментов создан виртуальный сервер `selfmade-vpc-jason`:   
 IP - 188.68.219.26
+
+**Using Ubuntu 18.04**

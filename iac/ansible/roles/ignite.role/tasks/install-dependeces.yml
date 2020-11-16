@@ -1,0 +1,38 @@
+---
+
+- name: Install dependences pkgs for Ignite
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop:
+    - dmsetup
+    - openssh-client
+    - git
+    - binutils
+    - containerd
+
+- name: Create dir for CNI
+  file:
+    path: /opt/cni/bin
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Get the tgz file of CNI Plugins from the repo
+  get_url:
+    url: https://github.com/containernetworking/plugins/releases/download/{{ IGNITE_CNI_VERSION }}/cni-plugins-linux-{{ IGNITE_ARCH }}-{{ IGNITE_CNI_VERSION }}.tgz
+    dest: "/tmp/ignite.tgz"
+    owner: root
+    group: root
+    mode: 0755
+
+
+- name: Unpacked tgz file of CNI Plugins
+  shell: "tar zxvf /tmp/ignite.tgz -C /opt/cni/bin"
+
+- name: Remove tgz file of CNI Plugins
+  file:
+    state: absent
+    path: "/tmp/ignite.tgz"

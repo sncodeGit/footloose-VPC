@@ -1,0 +1,13 @@
+---
+
+- include_tasks: install-dependeces.yml
+  tags:
+    - install-dependences
+
+- include_tasks: install-ignite.yml
+  tags:
+    - install-ignite
+
+- include_tasks: install-ignited.yml
+  tags:
+    - install-ignited
