@@ -1,8 +1,9 @@
 from http.server import HTTPServer, CGIHTTPRequestHandler
 
 import os
+import sys
 config_path = os.system("cat /etc/footloose-vpc/footloose-vpc.conf")
-path.insert(0, config_path)
+sys.path.insert(0, config_path)
 import config as cfg
 
 server_address = (cfg.LISTEN_IP, cfg.LISTEN_PORT)
