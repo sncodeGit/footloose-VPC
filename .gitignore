@@ -4,3 +4,4 @@
 **/molecule
 **/.github
 web/templates
+web/db

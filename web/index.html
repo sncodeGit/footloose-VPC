@@ -9,8 +9,8 @@
     <div id="login">
         <form method="post" action="cgi-bin/auth.py">
             <fieldset class="clearfix">
-                <p><span class="fontawesome-user"></span><input name="login" type="text" value="Логин" onBlur="if(this.value == '') this.value = 'Логин'"        onFocus="if(this.value == 'login') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
-                <p><span class="fontawesome-lock"></span><input name="password" type="password"  value="Пароль" onBlur="if(this.value == '') this.value = 'Пароль'" onFocus="if(this.value == 'password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+                <p><span class="fontawesome-user"></span><input name="login" type="text" value="login" onBlur="if(this.value == '') this.value = 'login'"        onFocus="if(this.value == 'login') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
+                <p><span class="fontawesome-lock"></span><input name="password" type="password"  value="password" onBlur="if(this.value == '') this.value = 'password'" onFocus="if(this.value == 'password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
                 <p><input type="submit" value="Login"></p>
             </fieldset>
         </form>

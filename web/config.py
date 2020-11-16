@@ -3,7 +3,7 @@ LISTEN_PORT=80
 
 DIR_PATH = {
     'root': '/footloose-VPC/web',
-    'scripts': '/scripts',
+    'db': '/footloose-VPC/web/db',
     'cgi-bin': '/cgi-bin',
-    'css': '/css'
+    'css': '/css',
 }
