@@ -3,5 +3,6 @@
 **/.ansible-lint
 **/molecule
 **/.github
+**/__pycache__
 web/templates
 web/db

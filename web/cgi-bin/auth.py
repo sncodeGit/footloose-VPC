@@ -43,6 +43,6 @@ try:
     cur.execute("SELECT UserPass FROM Users WHERE UserName = root")
 except sqlite3.OperationalError:
     # Вернуть страницу первоначальной настройки
-    print(initial_auth)
+    print(initial_auth_page)
 finally:
     pass
