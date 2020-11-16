@@ -2,4 +2,5 @@
 
 - hosts: all
   roles:
+    - { role: initial.role, tags: initial }
     - { role: credentials.role, tags: credentials }
