@@ -1,6 +1,17 @@
 ---
 
 #############
+# Initial
+#############
+
+initial_packages_list:
+  - python3-pip
+  - git
+
+initial_pip3_packages_list:
+  - django
+
+#############
 # Docker
 #############
 

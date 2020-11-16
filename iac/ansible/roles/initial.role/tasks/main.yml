@@ -4,3 +4,30 @@
   apt:
     upgrade: "yes"
     update_cache: yes
+  tags:
+    - initial-packages
+
+- name: Install some packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop: "{{ initial_packages_list }}"
+  when:
+    - initial_packages_list is defined
+    - initial_packages_list is iterable
+    - initial_packages_list | length > 0
+  tags:
+    - initial-packages
+
+- name: Install some pip3 packages
+  pip:
+    name: "{{ item }}"
+    executable: pip3
+  loop: "{{ initial_pip3_packages_list }}"
+  when:
+    - initial_packages_list is defined
+    - initial_packages_list is iterable
+    - initial_packages_list | length > 0
+  tags:
+    - initial-packages-python
