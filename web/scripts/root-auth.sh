@@ -9,7 +9,7 @@ supplied=$(echo "$password" | perl -e '$_ = <STDIN>; chomp; print crypt($_, $ARG
 
 if [ "$supplied" = "$correct" ]
 then
-    echo Correct;
+    exit 0;
 else
-    echo Incorrect;
+    exit 1;
 fi

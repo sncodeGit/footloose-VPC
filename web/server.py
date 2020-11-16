@@ -2,7 +2,8 @@ from http.server import HTTPServer, CGIHTTPRequestHandler
 
 import os
 import sys
-config_path = os.system("cat /etc/footloose-vpc/footloose-vpc.conf")
+with open('/etc/footloose-vpc/footloose-vpc.conf') as f:
+    config_path = f.read().split('\n')[0]
 sys.path.insert(0, config_path)
 import config as cfg
 
