@@ -15,17 +15,31 @@
     - name: Copy /web files
       block:
 
-        - name: Del /usr/lib/footloose-vpc if exist
+        - name: Del dirs if exist
           file:
             state: absent
-            path: "/usr/lib/footloose-vpc"
+            path: "{{ item }}"
+          loop:
+            - "/etc/footloose-vpc"
+            - "/usr/lib/footloose-vpc"
 
 
-        - name: Creates directory /usr/lib/footloose-vpc
+        - name: Creates directories
           file:
-            path: /usr/lib/footloose-vpc
+            path: "{{ item }}"
             state: directory
             recurse: yes
+          loop:
+            - "/etc/footloose-vpc/"
+            - "/usr/lib/footloose-vpc"
+
+        - name: Create footloose.conf
+          template:
+            src: templates/footloose-vpc.conf.j2
+            dest: /etc/footloose-vpc/footloose-vpc.conf
+            owner: root
+            group: root
+            mode: 0644
 
         - name: Creates directories inside /usr/lib/footloose-vpc
           file:

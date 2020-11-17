@@ -227,8 +227,9 @@ nginx_extra_http_options: |
 nginx_vhost_template: 'cgi-vhost.j2'
 
 nginx_vhosts:
-  - server_name: '188.68.219.27'
+  - server_name: "{{ hostvars['footloose-machine'].ansible_ssh_host }}"
     listen: '443 ssl http2'
     ssl_server: yes
-    root: '/footloose-VPC/web'
+    root: '/usr/lib/footloose-vpc/static'
+    cgi_root: '/usr/lib/footloose-vpc/cgi-bin'
     index: 'index.html'
