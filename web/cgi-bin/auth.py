@@ -36,13 +36,3 @@ initial_auth_page = """
 form = cgi.FieldStorage()
 form_login = form.getvalue('login')
 form_password = form.getvalue('password')
-
-conn = sqlite3.connect(r'%s/db.sqlite3' % cfg.DIR_PATH['db'])
-cur = conn.cursor()
-try:
-    cur.execute("SELECT UserPass FROM Users WHERE UserName = root")
-except sqlite3.OperationalError:
-    # Вернуть страницу первоначальной настройки
-    print(initial_auth_page)
-finally:
-    pass

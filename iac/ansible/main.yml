@@ -7,3 +7,4 @@
     - { role: docker.role, tags: docker-install }
     - { role: ignite.role, tags: ignite-install }
     - { role: footloose.role, tags: footloose-install }
+    - { role: mysql.role, tags: mysql }
