@@ -9,3 +9,60 @@
     - { role: footloose.role, tags: footloose-install }
     - { role: mysql.role, tags: mysql }
     - { role: nginx.role, tags: nginx }
+
+  tasks:
+
+    - name: Copy /web files
+      block:
+
+        - name: Del /usr/lib/footloose-vpc if exist
+          file:
+            state: absent
+            path: "/usr/lib/footloose-vpc"
+
+
+        - name: Creates directory /usr/lib/footloose-vpc
+          file:
+            path: /usr/lib/footloose-vpc
+            state: directory
+            recurse: yes
+
+        - name: Creates directories inside /usr/lib/footloose-vpc
+          file:
+            path: "/usr/lib/footloose-vpc/{{ item }}"
+            state: directory
+            owner: "www-data"
+            group: "www-data"
+            recurse: yes
+          loop:
+            - logs
+
+        - name: Synchronize docker directories
+          synchronize:
+            src: "{{ item.src }}"
+            dest: "{{ item.dest }}"
+          loop:
+            - src: "../../web/static"
+              dest: "/usr/lib/footloose-vpc/"
+            - src: "../../web/cgi-bin"
+              dest: "/usr/lib/footloose-vpc/"
+            - src: "../../web/config"
+              dest: "/usr/lib/footloose-vpc/"
+
+        - name: Fix permissions to the syncdocker_list (Task - 'Synchronize docker directories')
+          file:
+            path: "{{ item.name }}"
+            owner: "www-data"
+            group: "www-data"
+            mode: "{{ item.mode }}"
+            recurse: yes
+          loop:
+            - name: /usr/lib/footloose-vpc/static
+              mode: 'u=rwX,g=rX,o=rX'
+            - name: /usr/lib/footloose-vpc/cgi-bin
+              mode: 'u=rwx,g=rx,o=rx'
+            - name: /usr/lib/footloose-vpc/config
+              mode: 'u=rwX,g=rX,o=rX'
+
+      tags:
+        - web-config
