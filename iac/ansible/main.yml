@@ -10,7 +10,7 @@
     - { role: mysql.role, tags: mysql }
     - { role: nginx.role, tags: nginx }
 
-  tasks:
+  post_tasks:
 
     - name: Copy /web files
       block:
@@ -22,7 +22,6 @@
           loop:
             - "/etc/footloose-vpc"
             - "/usr/lib/footloose-vpc"
-
 
         - name: Creates directories
           file:
@@ -40,6 +39,19 @@
             owner: root
             group: root
             mode: 0644
+
+        - name: Create supervisor conf for fcgiwrap
+          template:
+            src: templates/supervisor-fcgiwrap.conf.j2
+            dest: /etc/supervisor/conf.d/fcgiwrap.conf
+            owner: root
+            group: root
+            mode: 0644
+
+        - name: Restarte supervisor service
+          systemd:
+            name: supervisor
+            state: restarted
 
         - name: Creates directories inside /usr/lib/footloose-vpc
           file:

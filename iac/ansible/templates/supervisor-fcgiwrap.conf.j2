@@ -1,0 +1,16 @@
+[fcgi-program:fcgiwrap]
+command = /usr/sbin/fcgiwrap
+user = www-data
+socket = unix:///var/run/fcgiwrap.socket
+socket_owner = www-data:www-data
+socket_mode = 0770
+autorestart=true
+autostart=true
+startsecs=1
+startretries=3
+stopsignal=QUIT
+stopwaitsecs=10
+environment=PATH='/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
+redirect_stderr=false
+stdout_logfile=/usr/lib/footloose-vpc/logs/fcgiwrap-access.log
+stderr_logfile=/usr/lib/footloose-vpc/logs/fcgiwrap-error.log

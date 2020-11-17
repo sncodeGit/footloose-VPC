@@ -8,6 +8,7 @@ initial_packages_list:
   - python3-pip
   - git
   - fcgiwrap
+  - supervisor
 
 initial_pip3_packages_list:
   - pymysql
@@ -233,3 +234,5 @@ nginx_vhosts:
     root: '/usr/lib/footloose-vpc'
     static_cache: yes
     index: 'index.html'
+    access_log: '/usr/lib/footloose-vpc/logs/nginx-access.log'
+    error_log: '/usr/lib/footloose-vpc/logs/nginx-error.log'
