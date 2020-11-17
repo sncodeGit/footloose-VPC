@@ -7,6 +7,7 @@
 initial_packages_list:
   - python3-pip
   - git
+  - fcgiwrap
 
 initial_pip3_packages_list:
   - pymysql
@@ -193,3 +194,41 @@ mysql_users:
 # mysql_replication_master: ''
 # # Same keys as `mysql_users` above.
 # mysql_replication_user: []
+
+###################
+# Nginx ###########
+###################
+
+nginx_remove_default_vhost: true
+
+nginx_extra_http_options: |
+    client_body_buffer_size 4m;
+    proxy_connect_timeout 300;
+    proxy_send_timeout 300;
+    proxy_read_timeout 300;
+    proxy_buffering    on;
+    proxy_set_header   X-Real-IP $remote_addr;
+    proxy_set_header   X-Scheme $scheme;
+    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header   Host $http_host;
+    proxy_buffer_size 64k;
+    proxy_buffers 8 256k;
+    proxy_busy_buffers_size 256k;
+    proxy_temp_file_write_size 10m;
+    error_page 500 502 503 504 /500.html;
+    error_page 404 = /404.html;
+    add_header "X-Content-Type-Options" "nosniff";
+    add_header X-Frame-Options SAMEORIGIN;
+    open_file_cache max=200000 inactive=20s;
+    open_file_cache_valid 30s;
+    open_file_cache_min_uses 2;
+    open_file_cache_errors on;
+
+nginx_vhost_template: 'cgi-vhost.j2'
+
+nginx_vhosts:
+  - server_name: '188.68.219.27'
+    listen: '443 ssl http2'
+    ssl_server: yes
+    root: '/footloose-VPC/web'
+    index: 'index.html'

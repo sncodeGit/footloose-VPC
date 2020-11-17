@@ -1,0 +1,84 @@
+---
+# Variable setup.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Define nginx_user.
+  set_fact:
+    nginx_user: "{{ __nginx_user }}"
+  when: nginx_user is not defined
+
+# Setup/install tasks.
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include_tasks: setup-FreeBSD.yml
+  when: ansible_os_family == 'FreeBSD'
+
+- include_tasks: setup-OpenBSD.yml
+  when: ansible_os_family == 'OpenBSD'
+
+- include_tasks: setup-Archlinux.yml
+  when: ansible_os_family == 'Archlinux'
+
+- name: Create a dir named ssl in nginx dir
+  file:
+    path: "{{ nginx_ssl_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: "{{ root_group }}"
+
+- name: Create a dir named htpasswd in nginx dir
+  file:
+    path: "{{ nginx_htpasswd_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: "{{ root_group }}"
+
+- name: Generate SSL self-signed cert
+  command: "openssl req -subj '/CN={{ ansible_fqdn }}/O=My Company Name LTD./C=RU' -new -newkey rsa:{{ nginx_certificate_length }} -days 365 -nodes -x509 -keyout {{ nginx_ssl_dir }}/server.key -out {{ nginx_ssl_dir }}/server.crt creates={{ nginx_ssl_dir }}/server.crt"
+
+- name: Generate SSL self-signed cert
+  command: "openssl dhparam -out {{ nginx_ssl_dir }}/dhparams_default.pem {{ nginx_certificate_length }}"
+  args:
+    creates: "{{ nginx_ssl_dir }}/dhparams_default.pem"
+
+- name: Check permissions on ssl cert
+  file:
+    path: "{{ item }}"
+    state: file
+    mode: "0400"
+    owner: root
+    group: "{{ root_group }}"
+  with_items:
+    - "{{ nginx_ssl_dir }}/server.key"
+    - "{{ nginx_ssl_dir }}/server.crt"
+  ignore_errors: "{{ ansible_check_mode }}"
+
+# Vhost configuration.
+- import_tasks: vhosts.yml
+
+# Nginx setup.
+- name: Copy nginx configuration in place.
+  template:
+    src: "{{ nginx_conf_template }}"
+    dest: "{{ nginx_conf_file_path }}"
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0644
+  notify:
+    - reload nginx
+
+- name: Ensure nginx service is running as configured.
+  service:
+    name: nginx
+    state: "{{ nginx_service_state }}"
+    enabled: "{{ nginx_service_enabled }}"

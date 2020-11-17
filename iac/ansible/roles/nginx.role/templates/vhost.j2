@@ -1,0 +1,59 @@
+{% block server_redirect %}
+{% if item.server_name_redirect is defined %}
+server {
+    listen       {{ item.listen | default('80') }};
+    server_name  {{ item.server_name_redirect }};
+    return       301 $scheme://{{ item.server_name.split(' ')[0] }}$request_uri;
+}
+{% endif %}
+{% endblock %}
+
+server {
+    {% block server_begin %}{% endblock %}
+
+    {% block server_basic -%}
+    listen {{ item.listen | default('80') }};
+
+{% if item.server_name is defined %}
+    server_name {{ item.server_name }};
+{% endif %}
+
+{% if item.letsencrypt is defined and item.letsencrypt %}
+    ssl_certificate {{ nginx_ssl_dir }}/{{ item.server_name }}-443.crt;
+    ssl_certificate_key {{ nginx_ssl_dir }}/{{ item.server_name }}-443.key;
+{% endif %}
+
+{% if item.htpasswd is defined and item.htpasswd %}
+    auth_basic "Restricted";
+    auth_basic_user_file {{ nginx_htpasswd_dir }}/{{ item.server_name }}-htpasswd;
+{% endif %}
+
+{% if item.root is defined %}
+    root {{ item.root }};
+{% endif %}
+
+{% if item.index is defined %}
+    index {{ item.index }};
+{% endif %}
+
+{% if item.error_page is defined %}
+    error_page {{ item.error_page }};
+{% endif %}
+{% if item.access_log is defined %}
+    access_log {{ item.access_log }};
+{% endif %}
+{% if item.error_log is defined %}
+    error_log {{ item.error_log }};
+{% endif %}
+
+{% if item.return is defined %}
+    return {{ item.return }};
+{% endif %}
+    {% endblock %}
+
+    {% block server_end %}{% endblock %}
+
+{% if item.extra_parameters is defined %}
+    {{ item.extra_parameters|indent(4) }}
+{% endif %}
+}
