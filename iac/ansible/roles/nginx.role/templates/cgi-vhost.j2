@@ -28,7 +28,7 @@ server {
 {% endif %}
 
 {% if item.root is defined %}
-    root {{ item.root }};
+    root {{ item.root }}/static;
 {% endif %}
 
 {% if item.index is defined %}
@@ -52,7 +52,7 @@ location /cgi-bin/ {
 
   # Set the root to /usr/lib (inside this location this means that we are
   # giving access to the files under /usr/lib/cgi-bin)
-  root	/usr/lib;
+  root	{{ item.root }};
 
   # Fastcgi socket
   fastcgi_pass  unix:/var/run/fcgiwrap.socket;
@@ -61,7 +61,13 @@ location /cgi-bin/ {
   include /etc/nginx/fastcgi_params;
 
   # Adjust non standard parameters (SCRIPT_FILENAME)
-  fastcgi_param SCRIPT_FILENAME  /usr/lib$fastcgi_script_name;
+  fastcgi_param SCRIPT_FILENAME  {{ item.root }}$fastcgi_script_name;
 }
+
+{% if item.static_cache is defined %}
+    location ~* \.(ogg|ogv|txt|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|css|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webm|less)$ {
+		expires           360d;
+    }
+{% endif %}
 
 }
