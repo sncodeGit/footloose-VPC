@@ -1,8 +1,6 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 
-import cgi, cgitb
-import os
-import sqlite3
+import pymysql
 
 import sys
 with open('/etc/footloose-vpc/footloose-vpc.conf') as f:
@@ -16,11 +14,11 @@ initial_auth_page = """
 <head>
   <meta charset="UTF-8">
   <title>Footloose-VPC</title>
-  <link rel="stylesheet" href="%s%s/style.css" media="screen" type="text/css" />
+  <link rel="stylesheet" href="%s/style.css" media="screen" type="text/css" />
 </head>
 <body>
     <div id="login">
-        <form method="post" action="cgi-bin/auth.py">
+        <form method="post" action="index.html">
             <fieldset class="clearfix">
                 Пожалуйста, введите пароль root-пользователя
                 <p><span class="fontawesome-user"></span><input name="login" type="text" value="login" onBlur="if(this.value == '') this.value = 'login'"        onFocus="if(this.value == 'login') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
@@ -31,8 +29,15 @@ initial_auth_page = """
     </div>
 </body>
 </html>
-""" % (cfg.DIR_PATH['static_root'], cfg.DIR_PATH['static_css'])
+""" % cfg.DIR_PATH['css']
 
-form = cgi.FieldStorage()
-form_login = form.getvalue('login')
-form_password = form.getvalue('password')
+# TODO сделать with
+db = pymysql.connect("localhost","flvpc","QVgMGF3VR3xw5Odt","flvpc_db" )
+cursor = db.cursor()
+cursor.execute("CHECK TABLE users")
+db_answ = cursor.fetchone()
+
+if db_answ[2] == "Error":
+    print('Content-Type: text/html; charset=utf-8')
+    print()
+    print(initial_auth_page)

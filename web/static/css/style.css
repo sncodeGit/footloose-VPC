@@ -54,7 +54,8 @@ p {
 
 #login {
 	margin: 150px auto;
-	width: 280px;
+    width: 280px;
+    outline: none;
 }
 
 #login form span {

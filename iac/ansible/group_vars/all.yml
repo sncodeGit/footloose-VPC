@@ -232,6 +232,7 @@ nginx_vhosts:
     listen: '443 ssl http2'
     ssl_server: yes
     root: '/usr/lib/footloose-vpc'
+    static_root: '/usr/lib/footloose-vpc/static'
     static_cache: yes
     index: 'index.html'
     access_log: '/usr/lib/footloose-vpc/logs/nginx-access.log'

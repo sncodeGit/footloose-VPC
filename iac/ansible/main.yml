@@ -63,7 +63,7 @@
           loop:
             - logs
 
-        - name: Synchronize docker directories
+        - name: Synchronize web directories
           synchronize:
             src: "{{ item.src }}"
             dest: "{{ item.dest }}"
@@ -75,7 +75,7 @@
             - src: "../../web/config"
               dest: "/usr/lib/footloose-vpc/"
 
-        - name: Fix permissions to the syncdocker_list (Task - 'Synchronize docker directories')
+        - name: Fix permissions to the web directories (Task - 'Synchronize web directories')
           file:
             path: "{{ item.name }}"
             owner: "www-data"
@@ -89,6 +89,11 @@
               mode: 'u=rwx,g=rx,o=rx'
             - name: /usr/lib/footloose-vpc/config
               mode: 'u=rwX,g=rX,o=rX'
+
+        - name: Restarte nginx service
+          systemd:
+            name: nginx
+            state: restarted
 
       tags:
         - web-config
