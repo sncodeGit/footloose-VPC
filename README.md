@@ -11,3 +11,11 @@ VPC by Footloose container Machines
 IP - 188.68.219.26
 
 **Using Ubuntu 18.04**
+
+## Install
+1. Install Ansible in your own PC:   
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+2. `git clone git@github.com:sncodeGit/footloose-VPC.git`
+3. `cd footloose-VPC/iac/ansible`
+4. Change ip for your server ip in **inventory.yml** (ansible_ssh_host variable)
+5. `ansible-playbook -i inventory.yml -b main.yml`
