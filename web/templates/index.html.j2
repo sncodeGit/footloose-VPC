@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Footloose-VPC</title>
-{% for css_file in html_vars['css_files'] %}
+{% for css_file in j2_vars['css_files'] %}
   <link rel="stylesheet" href="{{ css_file }}" media="screen" type="text/css" />
 {% endfor %}
 </head>

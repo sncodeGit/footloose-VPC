@@ -3,7 +3,9 @@ LISTEN_PORT=80
 
 DIR_PATH = {
     'modules': '/usr/lib/footloose-vpc/modules',
-    'templates': '/usr/lib/footloose-vpc/templates'
+    'templates': '/usr/lib/footloose-vpc/templates',
+    'error_pages': '/usr/lib/footloose-vpc/static',
+    'cgi-bin': '/usr/lib/footloose-vpc/cgi-bin',
 }
 
 URL_PATH = {

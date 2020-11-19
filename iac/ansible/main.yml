@@ -103,5 +103,10 @@
             name: nginx
             state: restarted
 
+        - name: Restarte fcgiwrap service
+          systemd:
+            name: fcgiwrap
+            state: restarted
+
       tags:
         - web-config

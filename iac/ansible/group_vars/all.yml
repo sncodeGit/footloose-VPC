@@ -235,4 +235,3 @@ nginx_vhosts:
     index: 'index.py'
     access_log: '/usr/lib/footloose-vpc/logs/nginx-access.log'
     error_log: '/usr/lib/footloose-vpc/logs/nginx-error.log'
-    static_cache: yes
