@@ -40,8 +40,10 @@ server {
     error_log {{ item.error_log }};
 {% endif %}
 
-location ~* \.(ogg|ogv|txt|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|css|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webm|less)$ {
+location ~* \.(html|ogg|ogv|txt|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|css|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webm|less)$ {
   root /usr/lib/footloose-vpc/static;
+  error_page 404 = /404.html;
+  error_page 403 = /403.html;
 }
 
 location / {
@@ -52,6 +54,8 @@ location / {
   root {{ item.root }};
 
   index {{ item.index }};
+
+  error_page   500 502 503 504  /50x.html;
 
   # Fastcgi socket
   fastcgi_pass  unix:/var/run/fcgiwrap.socket;
@@ -64,7 +68,7 @@ location / {
 }
 
 {% if item.static_cache is defined %}
-    location ~* \.(ogg|ogv|txt|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|css|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webm|less)$ {
+    location ~* \.(html|ogg|ogv|txt|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|css|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webm|less)$ {
 		expires           360d;
     }
 {% endif %}

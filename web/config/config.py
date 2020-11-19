@@ -3,10 +3,12 @@ LISTEN_PORT=80
 
 DIR_PATH = {
     'modules': '/usr/lib/footloose-vpc/modules',
+    'templates': '/usr/lib/footloose-vpc/templates'
 }
 
 URL_PATH = {
     'css': '/css',
+    'js': '/js',
 }
 
 DB = {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Footloose-VPC</title>
+{% for css_file in html_vars['css_files'] %}
+  <link rel="stylesheet" href="{{ css_file }}" media="screen" type="text/css" />
+{% endfor %}
+{% for js_file in html_vars['js_files'] %}
+  <script language="JavaScript" src="{{ js_file }}"></script>
+{% endfor %}
+</head>
+<body>
+    <div id="login">
+        <form method="post" action="/cgi-bin/is_root_exist.py" onsubmit="return checkRegistryData();">
+            <fieldset class="clearfix">
+                <p><div align="center">Please enter the root user password</div></p>
+                <><span class="fontawesome-lock"></span><input name="first_password" type="password"></>
+                <p><span class="fontawesome-lock"></span><input name="second_password" type="password"></p>
+                <p><input type="submit" value="Confirm"></p>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
