@@ -9,7 +9,7 @@ with open('/etc/footloose-vpc/footloose-vpc.conf') as f:
 sys.path.insert(0, config_path)
 import config as cfg
 
-# Здесь же нужно возвращать ошибки!
+# TODO Здесь же нужно возвращать ошибки!
 
 print('Content-Type: text/plain; charset=utf-8')
 print()
