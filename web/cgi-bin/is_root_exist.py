@@ -32,7 +32,7 @@ initial_auth_page = """
 """ % cfg.DIR_PATH['css']
 
 # TODO сделать with
-db = pymysql.connect("localhost","flvpc","QVgMGF3VR3xw5Odt","flvpc_db" )
+db = pymysql.connect(cfg.DB['host'], cfg.DB['user'], cfg.DB['password'], cfg.DB['name'])
 cursor = db.cursor()
 cursor.execute("CHECK TABLE users")
 db_answ = cursor.fetchone()

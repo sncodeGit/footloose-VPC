@@ -74,6 +74,8 @@
               dest: "/usr/lib/footloose-vpc/"
             - src: "../../web/config"
               dest: "/usr/lib/footloose-vpc/"
+            - src: "../../web/modules"
+              dest: "/usr/lib/footloose-vpc/"
 
         - name: Fix permissions to the web directories (Task - 'Synchronize web directories')
           file:
@@ -88,6 +90,8 @@
             - name: /usr/lib/footloose-vpc/cgi-bin
               mode: 'u=rwx,g=rx,o=rx'
             - name: /usr/lib/footloose-vpc/config
+              mode: 'u=rwX,g=rX,o=rX'
+            - name: /usr/lib/footloose-vpc/modules
               mode: 'u=rwX,g=rX,o=rX'
 
         - name: Restarte nginx service

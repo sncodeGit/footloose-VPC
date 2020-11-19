@@ -1,18 +1,17 @@
-{% if item.server_name_redirect is defined %}
+{% if item.https_redirect is defined %}
 server {
-    listen       {{ item.listen | default('80') }};
-    server_name  {{ item.server_name_redirect }};
+    listen       80;
+    server_name  {{ item.server_name }};
     return       301 https://{{ item.server_name.split(' ')[0] }}$request_uri;
 }
 {% endif %}
 
 server {
-    listen {{ item.listen | default('80') }};
+    listen 443 ssl http2;
 {% if item.server_name is defined %}
     server_name {{ item.server_name }};
 {% endif %}
 
-{% if item.ssl_server is defined %}
     ssl_certificate      /etc/nginx/ssl/server.crt;
     ssl_certificate_key  /etc/nginx/ssl/server.key;
     # ssl_stapling on;
@@ -25,19 +24,15 @@ server {
     ssl_ciphers ECDH:DH:EECDH:+AES256:!ADH:!AECDH:!SEED:!DES:!3DES:!NULL:!RC4;
     ssl_prefer_server_ciphers on;
     add_header Strict-Transport-Security "max-age=31536000;";
-{% endif %}
 
 {% if item.root is defined %}
-    root {{ item.root }}/static;
+    root {{ item.root }};
 {% endif %}
 
 {% if item.index is defined %}
     index {{ item.index }};
 {% endif %}
 
-{% if item.error_page is defined %}
-    error_page {{ item.error_page }};
-{% endif %}
 {% if item.access_log is defined %}
     access_log {{ item.access_log }};
 {% endif %}
@@ -45,14 +40,18 @@ server {
     error_log {{ item.error_log }};
 {% endif %}
 
-location /cgi-bin/ {
+location ~* \.(ogg|ogv|txt|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|css|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webm|less)$ {
+  root /usr/lib/footloose-vpc/static;
+}
+
+location / {
   # Disable gzip (it makes scripts feel slower since they have to complete
   # before getting gzipped)
   gzip off;
 
-  # Set the root to /usr/lib (inside this location this means that we are
-  # giving access to the files under /usr/lib/cgi-bin)
-  root	{{ item.root }};
+  root {{ item.root }};
+
+  index {{ item.index }};
 
   # Fastcgi socket
   fastcgi_pass  unix:/var/run/fcgiwrap.socket;
@@ -61,7 +60,7 @@ location /cgi-bin/ {
   include /etc/nginx/fastcgi_params;
 
   # Adjust non standard parameters (SCRIPT_FILENAME)
-  fastcgi_param SCRIPT_FILENAME  {{ item.root }}$fastcgi_script_name;
+  fastcgi_param SCRIPT_FILENAME  {{ item.root }}/index.py;
 }
 
 {% if item.static_cache is defined %}

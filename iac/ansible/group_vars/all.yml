@@ -225,15 +225,14 @@ nginx_extra_http_options: |
     open_file_cache_min_uses 2;
     open_file_cache_errors on;
 
-nginx_vhost_template: 'cgi-vhost.j2'
-
+nginx_vhost_template: 'footloose-vpc.j2'
+nginx_cert_domain: "{{ hostvars['footloose-machine'].ansible_ssh_host }}"
 nginx_vhosts:
   - server_name: "{{ hostvars['footloose-machine'].ansible_ssh_host }}"
-    listen: '443 ssl http2'
-    ssl_server: yes
-    root: '/usr/lib/footloose-vpc'
+    https_redirect: yes
+    root: '/usr/lib/footloose-vpc/cgi-bin'
     static_root: '/usr/lib/footloose-vpc/static'
-    static_cache: yes
-    index: 'index.html'
+    index: 'index.py'
     access_log: '/usr/lib/footloose-vpc/logs/nginx-access.log'
     error_log: '/usr/lib/footloose-vpc/logs/nginx-error.log'
+    static_cache: yes
