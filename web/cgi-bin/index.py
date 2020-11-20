@@ -16,24 +16,41 @@ import config as cfg
 # Import modules
 sys.path.insert(0, cfg.DIR_PATH['modules'])
 import db
-import html
+import htansw
+import auth_cookie
+
+# Get auth cookie
+session_cookie = auth_cookie.set_session_cookie()
 
 if os.environ.get('REQUEST_URI') == "/":
     if db.is_users_exist():
-        html.redirect_to('/auth')
+        htansw.redirect_to('/auth')
     else:
-        html.redirect_to('/install')
+        htansw.redirect_to('/install')
 elif (os.environ.get('REQUEST_URI') == "/auth" and db.is_users_exist()):
-    os.system(cfg.DIR_PATH['cgi-bin'] + 'auth.py')
+    os.system(cfg.DIR_PATH['cgi-bin'] + '/auth.py')
 elif (os.environ.get('REQUEST_URI') == "/install" and not db.is_users_exist()):
     os.system(cfg.DIR_PATH['cgi-bin'] + '/install.py')
+elif (os.environ.get('REQUEST_URI') == "/auth_me" and db.is_users_exist()):
+    form = cgi.FieldStorage()
+    form_passw = form.getvalue('password')
+    form_login = form.getvalue('login')
+    # TODO
+    # Нужно получить код ответа
+    is_auth = os.system(cfg.DIR_PATH['cgi-bin'] + '/auth_me.py' + ' ' + form_login + form_passw)
+    if not is_auth:
+        #TODO
+        # Если авторизация ОК
+        pass
+    else:
+        htansw.redirect_to('/auth')
 elif (os.environ.get('REQUEST_URI') == "/create_root" and not db.is_users_exist()):
     form = cgi.FieldStorage()
     root_passw = form.getvalue('first_password')
     db.create_root(root_passw)
-    html.redirect_to('/auth')
+    htansw.redirect_to('/auth')
 else:
     with open(cfg.DIR_PATH['error_pages'] + '/404.html', 'r') as file:
         html_404 = file.read()
-    html.print_html()
+    htansw.print_html()
     print(html_404)

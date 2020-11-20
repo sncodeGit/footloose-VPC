@@ -62,6 +62,7 @@
             recurse: yes
           loop:
             - logs
+            - tmp
 
         - name: Synchronize web directories
           synchronize:
@@ -107,6 +108,12 @@
           systemd:
             name: fcgiwrap
             state: restarted
+
+        - name: Set cron task for rm old sessions files
+          cron:
+            name: "Remove old sessions files"
+            minute: "0"
+            job: "0 7 * * * find /usr/lib/footloose-vpc/tmp/ -type f -mtime +14 -delete"
 
       tags:
         - web-config

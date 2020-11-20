@@ -2,6 +2,7 @@
 
 import subprocess
 import sys
+import cgi, cgitb
 #
 from jinja2 import Environment, FileSystemLoader
 
@@ -15,10 +16,18 @@ import config as cfg
 sys.path.insert(0, cfg.DIR_PATH['modules'])
 import db
 import htansw
-import j2
+import auth_cookie
 
-template = 'auth.html.j2'
-j2_vars = {
-    'css_files': [cfg.URL_PATH['css'] + '/style.css',],
-}
-j2.print_j2_template(template, j2_vars)
+login = sys.argv[1]
+passw = sys.argv[2]
+
+try:
+    if db.is_passw_correct(login, passw):
+        auth_cookie.set_auth_session(auth_cookie.get_session_cookie())
+    else:
+        sys.exit(1)
+except TypeError:
+    sys.exit(2)
+else:
+    sys.exit(3)
+

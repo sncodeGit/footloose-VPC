@@ -10,8 +10,9 @@ import config as cfg
 import hash
 
 def __mysql_connect(db):
-    return pymysql.connect(db['host'], db['user'],
-                            db['password'], db['name'])
+    return pymysql.connect(host=db['host'], user=db['user'],
+                            passwd=db['password'], db=db['name'],
+                            autocommit=True)
 
 def is_users_exist():
     db = __mysql_connect(cfg.DB)
@@ -28,8 +29,8 @@ def __create_users_table():
     cursor = db.cursor()
     cursor.execute("""
         CREATE TABLE users(
-        user_id INT NOT NULL AUTO_INCREMENT,
-        user_name VARCHAR(20) NOT NULL,
+        user_id INT NOT NULL AUTO_INCREMENT UNIQUE,
+        user_name VARCHAR(20) NOT NULL UNIQUE,
         user_pass VARCHAR(100) NOT NULL,
         PRIMARY KEY ( user_id )
         );
@@ -45,3 +46,12 @@ def create_root(root_passw):
     INSERT INTO `users` (`user_id`, `user_name`, `user_pass`)
     VALUES (default, 'root', '%s');
     """ % hash.hash_password(root_passw))
+
+def is_passw_correct(login, passw):
+    db = __mysql_connect(cfg.DB)
+    cursor = db.cursor()
+    cursor.execute("""
+    SELECT user_pass FROM users WHERE user_name='%s';
+    """ % login)
+    db_passw_hash = cursor.fetchone()[0]
+    return hash.check_password(db_passw_hash, passw)

@@ -8,10 +8,10 @@ sys.path.insert(0, config_path)
 import config as cfg
 
 # Import modules
-import html
+import htansw
 
 def print_j2_template(template, j2_vars):
-    html.print_html()
+    htansw.print_html()
     env = Environment(loader=FileSystemLoader('%s/' % cfg.DIR_PATH['templates']))
     j2_html = env.get_template(template)
     rendered_html = j2_html.render(j2_vars=j2_vars)

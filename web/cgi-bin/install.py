@@ -14,7 +14,7 @@ import config as cfg
 # Import modules
 sys.path.insert(0, cfg.DIR_PATH['modules'])
 import db
-import html
+import htansw
 import j2
 
 template = 'install.html.j2'

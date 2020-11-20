@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="login">
-        <form method="post" action="/cgi-bin/is_root_exist.py">
+        <form method="post" action="/auth_me">
             <fieldset class="clearfix">
                 <p><span class="fontawesome-user"></span><input name="login" type="text" value="login" onBlur="if(this.value == '') this.value = 'login'"        onFocus="if(this.value == 'login') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
                 <p><span class="fontawesome-lock"></span><input name="password" type="password"  value="password" onBlur="if(this.value == '') this.value = 'password'" onFocus="if(this.value == 'password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
