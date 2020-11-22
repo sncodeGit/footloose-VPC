@@ -19,3 +19,8 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 3. `cd footloose-VPC/iac/ansible`
 4. Change ip to your server ip in **inventory.yml** (ansible_ssh_host variable)
 5. `ansible-playbook -i inventory.yml -b main.yml`
+
+##Доставить сайт
+```
+ansible-playbook -i inventory.yml -b main.yml --tags 'web-config'
+```

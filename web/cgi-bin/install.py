@@ -20,6 +20,6 @@ import j2
 template = 'install.html.j2'
 j2_vars = {
     'css_files': [cfg.URL_PATH['css'] + '/style.css',],
-    'js_files': [cfg.URL_PATH['js'] + '/root_init.js'],
+    'js_files': [cfg.URL_PATH['js'] + '/root_init.js',],
 }
 j2.print_j2_template(template, j2_vars)
