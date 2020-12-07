@@ -24,6 +24,7 @@ passw = sys.argv[2]
 try:
     if db.is_passw_correct(login, passw):
         auth_cookie.set_auth_session(auth_cookie.get_session_cookie())
+        sys.exit(0)
     else:
         sys.exit(1)
 except TypeError:

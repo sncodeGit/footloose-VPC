@@ -35,13 +35,10 @@ elif (os.environ.get('REQUEST_URI') == "/auth_me" and db.is_users_exist()):
     form = cgi.FieldStorage()
     form_passw = form.getvalue('password')
     form_login = form.getvalue('login')
-    # TODO
-    # Нужно получить код ответа
-    is_auth = os.system(cfg.DIR_PATH['cgi-bin'] + '/auth_me.py' + ' ' + form_login + form_passw)
+    is_auth_process = subprocess.Popen([cfg.DIR_PATH['cgi-bin'] + '/auth_me.py', form_login, form_passw])
+    is_auth = is_auth_process.wait()
     if not is_auth:
-        #TODO
-        # Если авторизация ОК
-        pass
+        htansw.redirect_to('/panel')
     else:
         htansw.redirect_to('/auth')
 elif (os.environ.get('REQUEST_URI') == "/create_root" and not db.is_users_exist()):
