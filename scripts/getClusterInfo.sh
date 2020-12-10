@@ -1,6 +1,7 @@
+#!/usr/bin/env bash
+
 # Params
 #
-# getClusterInfo.sh \
 # ClusterName
 #
 # Return

@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
+
 # Все параметры обязательно должны передаваться!!!
 # Если параметр не задан - передаем None
 #
-# createCluster.py \
 # ClusterName NodeCount NodeName NodeImage CPULimit4Node MemoryLimit4Node DiskLimit4Container KernelImage
 
 from jinja2 import Environment, FileSystemLoader
