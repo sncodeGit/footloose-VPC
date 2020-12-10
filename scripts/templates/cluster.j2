@@ -1,0 +1,26 @@
+cluster:
+  name: {{ j2_vars['ClusterName'] }}
+  privateKey: cluster-key
+machines:
+- count: {{ j2_vars['NodeCount'] }}
+  backend: ignite
+  spec:
+    image: {{ j2_vars['NodeImage'] }}
+    name: {{ j2_vars['NodeName'] }}
+    portMappings:
+    - containerPort: 22
+{% if j2_vars['CPULimit'] != 'None' or j2_vars['MemoryLimit'] != 'None' or j2_vars['DiskLimit'] != 'None' or j2_vars['KernelImage'] != 'None' -%}
+  ignite:
+{% if j2_vars['CPULimit'] != 'None' -%}
+    cpus: {{ j2_vars['CPULimit'] }}
+{% endif -%}
+{% if j2_vars['MemoryLimit'] != 'None' -%}
+    memory: {{ j2_vars['MemoryLimit'] }}
+{% endif -%}
+{% if j2_vars['DiskLimit'] != 'None' -%}
+    diskSize: {{ j2_vars['DiskLimit'] }}
+{% endif -%}
+{% if j2_vars['KernelImage'] != 'None' -%}
+    kernel: {{ j2_vars['KernelImage'] }}
+{% endif -%}
+{% endif -%}
