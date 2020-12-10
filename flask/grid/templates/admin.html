@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>admin page</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><a href="{{ url_for('manage_namespaces') }}">Manage namespaces</a></td>
+        </tr>
+        <tr>
+            <td><a href="{{ url_for('manage_users') }}">Manage users</a></td>
+        </tr>
+        <tr>
+            <button>
+                <a href="{{ url_for('logout') }}">logout</a>
+            </button>
+                    </tr>
+    </table>
+
+</body>
+</html>
