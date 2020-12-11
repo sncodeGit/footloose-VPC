@@ -7,11 +7,8 @@
 initial_packages_list:
   - python3-pip
   - git
-  - fcgiwrap
-  - supervisor
 
-initial_pip3_packages_list:
-  - pymysql
+initial_pip3_packages_list: []
 
 #############
 # Docker
@@ -174,17 +171,17 @@ mysql_config_include_files: []
 
 # Databases.
 mysql_databases:
-  - name: flvpc_db
+  - name: grid_and_cloud
     collation: utf8_general_ci
     encoding: utf8
     replicate: 1
 
 # Users.
 mysql_users:
-  - name: flvpc
+  - name: jason
     host: 127.0.0.1
-    password: 'QVgMGF3VR3xw5Odt'
-    priv: "flvpc_db.*:ALL"
+    password: '12345678'
+    priv: "grid_and_cloud.*:ALL"
 
 # # Replication settings (replication is only enabled if master/user have values).
 # mysql_server_id: "1"
@@ -195,43 +192,3 @@ mysql_users:
 # mysql_replication_master: ''
 # # Same keys as `mysql_users` above.
 # mysql_replication_user: []
-
-###################
-# Nginx ###########
-###################
-
-nginx_remove_default_vhost: true
-
-nginx_extra_http_options: |
-    client_body_buffer_size 4m;
-    proxy_connect_timeout 300;
-    proxy_send_timeout 300;
-    proxy_read_timeout 300;
-    proxy_buffering    on;
-    proxy_set_header   X-Real-IP $remote_addr;
-    proxy_set_header   X-Scheme $scheme;
-    proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header   Host $http_host;
-    proxy_buffer_size 64k;
-    proxy_buffers 8 256k;
-    proxy_busy_buffers_size 256k;
-    proxy_temp_file_write_size 10m;
-    error_page 500 502 503 504 /500.html;
-    error_page 404 = /404.html;
-    add_header "X-Content-Type-Options" "nosniff";
-    add_header X-Frame-Options SAMEORIGIN;
-    open_file_cache max=200000 inactive=20s;
-    open_file_cache_valid 30s;
-    open_file_cache_min_uses 2;
-    open_file_cache_errors on;
-
-nginx_vhost_template: 'footloose-vpc.j2'
-nginx_cert_domain: "{{ hostvars['footloose-machine'].ansible_ssh_host }}"
-nginx_vhosts:
-  - server_name: "{{ hostvars['footloose-machine'].ansible_ssh_host }}"
-    https_redirect: yes
-    root: '/usr/lib/footloose-vpc/cgi-bin'
-    static_root: '/usr/lib/footloose-vpc/static'
-    index: 'index.py'
-    access_log: '/usr/lib/footloose-vpc/logs/nginx-access.log'
-    error_log: '/usr/lib/footloose-vpc/logs/nginx-error.log'

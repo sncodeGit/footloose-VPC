@@ -4,3 +4,5 @@
 **/molecule
 **/.github
 **/__pycache__
+flask/grid/venv/
+flask/grid/.idea/
