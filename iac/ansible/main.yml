@@ -8,7 +8,6 @@
     - { role: ignite.role, tags: ignite-install }
     - { role: footloose.role, tags: footloose-install }
     - { role: mysql.role, tags: mysql }
-    - { role: nginx.role, tags: nginx }
 
   post_tasks:
 
