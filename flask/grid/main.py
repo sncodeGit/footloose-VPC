@@ -38,7 +38,7 @@ class UserNamespaces(db.Model, UserMixin):
 class Clusters(db.Model, UserMixin):
     name = db.Column(db.String(40), db.ForeignKey('namespaces.name'), primary_key=True)
     nodecount = db.Column(db.Integer)
-    nodename = db.Column(db.Stirng(40))
+    nodename = db.Column(db.String(40))
     nodeimage = db.Column(db.Integer)
     cpulimit = db.Column(db.Integer)
     memorylimit = db.Column(db.Integer)
