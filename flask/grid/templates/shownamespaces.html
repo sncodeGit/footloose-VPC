@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>showusers</title>
         <style>
         /* Add a black background color to the top navigation */
 .topnav {
@@ -44,15 +44,43 @@
     </ul>
   {% endif %}
 {% endwith %}
-
 <form method="POST">
-    <table>
+<table>
         <tr>
-            <td>Login</td>
-            <td><input type="text" name="namespaces"></td>
+            <td>choose namespaces</td>
+            <td><select name="namespaces">
+                {% block namespaces %}
+                    {% for elem in namespaces %}
+                <option>{{elem}}</option>
+                    {% endfor %}
+                {% endblock %}
+              </select>
+        </td>
+        </tr>
+
+            <tr>
+            <td>choose users</td>
+            <td><select name="user">
+                {% block users %}
+                    {% for elem in users%}
+                <option>{{elem}}</option>
+                    {% endfor %}
+                {% endblock %}
+              </select>
+        </td>
+        </tr>
+            </tr>
+
+            <tr>
+            <td>choose rights</td>
+            <td><select name="rights">
+                <option>full</option>
+                <option>not full</option>
+              </select>
+        </td>
         </tr>
         <tr>
-            <td><input type="submit" value="create"></td>
+            <td><input type="submit" value="Connect"></td>
         </tr>
     </table>
 </form>

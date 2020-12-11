@@ -3,8 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>admin page</title>
+        <style>
+        /* Add a black background color to the top navigation */
+.topnav {
+    background-color: #FFFFFF;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+    </style>
 </head>
 <body>
+<div class="topnav">
+  <a href="{{ url_for('admin') }}">Home</a>
+  <a href="{{ url_for('manage_users') }}">Manage users</a>
+  <a href="{{ url_for('manage_namespaces') }}">Manage namespaces</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
     <table>
         <tr>
             <td><a href="{{ url_for('create_users') }}">Create_users</a></td>
@@ -13,10 +43,6 @@
             <td><a href="{{ url_for('show_users') }}">Show and delete users</a></td>
         </tr>
         <tr>
-            <button>
-                <a href="{{ url_for('logout') }}">logout</a>
-            </button>
-                    </tr>
     </table>
 
 </body>

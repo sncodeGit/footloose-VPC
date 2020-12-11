@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-        <style>
+    <title>show connects</title>
+    <style>
         /* Add a black background color to the top navigation */
 .topnav {
     background-color: #FFFFFF;
@@ -35,24 +35,26 @@
   <a href="{{ url_for('manage_namespaces') }}">Manage namespaces</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
+    {% block content %}
+    {% for elem in content %}
+        {{elem[1]}} - {{elem[0]}} with rights {{elem[2]}} <br>
+        {% endfor %}
+    {% endblock %}
 <form method="POST">
-    <table>
-        <tr>
-            <td>Login</td>
-            <td><input type="text" name="namespaces"></td>
+<table>
+<tr>
+            <td>change rights</td>
+            <td><select name="right">
+                {% block content1 %}
+                    {% for elem in content1 %}
+                <option>{{elem[1]}} {{elem[0]}} {{elem[2]}}</option>
+                    {% endfor %}
+                {% endblock %}
+              </select>
+        </td>
         </tr>
         <tr>
-            <td><input type="submit" value="create"></td>
+            <td><input type="submit" value="change"></td>
         </tr>
     </table>
 </form>
