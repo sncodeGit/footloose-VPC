@@ -5,10 +5,31 @@
 - include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- name: Install Docker.
-  package:
-    name: "{{ docker_package }}"
-    state: "{{ docker_package_state }}"
+# - name: Install Docker.
+#   package:
+#     name: "{{ docker_package }}"
+#     state: "{{ docker_package_state }}"
+#   notify: restart docker
+
+- name: Create directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  loop: "{{ create_dirs }}"
+
+# TODO: Remove this shim once 18.09.1 or later is released.
+# - import_tasks: docker-1809-shim.yml
+#   when: ansible_service_mgr == 'systemd'
+
+- name: debug dictionary
+  debug: var="{{ docker_json_opts | to_nice_json }}"
+  # with_items: "{{ docker_log_opts | list }}"
+
+- name: Create daemon.json
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
   notify: restart docker
 
 - name: Ensure Docker is started and enabled at boot.
@@ -21,7 +42,20 @@
   meta: flush_handlers
 
 - include_tasks: docker-compose.yml
-  when: docker_install_compose | bool
+  when: docker_install_compose
 
 - include_tasks: docker-users.yml
-  when: docker_users | length > 0
+  when: docker_users
+
+- include_tasks: container-healthcheck.yml
+  when: docker_container_healthcheck
+
+- name: Add ctop alias for root
+  lineinfile:
+    dest: /root/.bashrc
+    line: alias ctop='docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop:latest'
+    owner: root
+    regexp: "^alias ctop='docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock quay.io/vektorlab/ctop:latest'$"
+    state: present
+    insertafter: EOF
+    create: True

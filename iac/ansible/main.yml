@@ -7,120 +7,38 @@
     - { role: docker.role, tags: docker-install }
     - { role: ignite.role, tags: ignite-install }
     - { role: footloose.role, tags: footloose-install }
-    - { role: mysql.role, tags: mysql }
 
   post_tasks:
 
-    - name: Copy /web files
+    - name: Copy docker
       block:
 
-        - name: Del dirs if exist
-          file:
-            state: absent
-            path: "{{ item }}"
-          loop:
-            - "/etc/footloose-vpc"
-            - "/usr/lib/footloose-vpc"
-
-        - name: Creates directories
+        - name: Creates directory
           file:
             path: "{{ item }}"
             state: directory
             recurse: yes
-          loop:
-            - "/etc/footloose-vpc/"
-            - "/usr/lib/footloose-vpc"
+          loop: "{{ createfolder_list }}"
+          when:
+            - createfolder_list is defined
+            - createfolder_list is iterable
+            - createfolder_list | length > 0
 
-        - name: Create footloose.conf
-          template:
-            src: templates/footloose-vpc.conf.j2
-            dest: /etc/footloose-vpc/footloose-vpc.conf
-            owner: root
-            group: root
-            mode: 0644
-
-        - name: Create supervisor conf for fcgiwrap
-          template:
-            src: templates/supervisor-fcgiwrap.conf.j2
-            dest: /etc/supervisor/conf.d/fcgiwrap.conf
-            owner: root
-            group: root
-            mode: 0644
-
-        - name: Restarte supervisor service
-          systemd:
-            name: supervisor
-            state: restarted
-
-        - name: Creates directories inside /usr/lib/footloose-vpc
-          file:
-            path: "/usr/lib/footloose-vpc/{{ item }}"
-            state: directory
-            owner: "www-data"
-            group: "www-data"
-            recurse: yes
-          loop:
-            - logs
-            - tmp
-
-        - name: Synchronize web directories
-          synchronize:
+        - name: Copy files (docker-compose)
+          copy:
             src: "{{ item.src }}"
             dest: "{{ item.dest }}"
-          loop:
-            - src: "../../web/static"
-              dest: "/usr/lib/footloose-vpc/"
-            - src: "../../web/cgi-bin"
-              dest: "/usr/lib/footloose-vpc/"
-            - src: "../../web/admin"
-              dest: "/usr/lib/footloose-vpc/"
-            - src: "../../web/panel"
-              dest: "/usr/lib/footloose-vpc/"
-            - src: "../../web/config"
-              dest: "/usr/lib/footloose-vpc/"
-            - src: "../../web/modules"
-              dest: "/usr/lib/footloose-vpc/"
-            - src: "../../web/templates"
-              dest: "/usr/lib/footloose-vpc/"
-
-        - name: Fix permissions to the web directories (Task - 'Synchronize web directories')
-          file:
-            path: "{{ item.name }}"
-            owner: "www-data"
-            group: "www-data"
-            mode: "{{ item.mode }}"
-            recurse: yes
-          loop:
-            - name: /usr/lib/footloose-vpc/static
-              mode: 'u=rwX,g=rX,o=rX'
-            - name: /usr/lib/footloose-vpc/cgi-bin
-              mode: 'u=rwx,g=rx,o=rx'
-            - name: /usr/lib/footloose-vpc/admin
-              mode: 'u=rwx,g=rx,o=rx'
-            - name: /usr/lib/footloose-vpc/panel
-              mode: 'u=rwx,g=rx,o=rx'
-            - name: /usr/lib/footloose-vpc/config
-              mode: 'u=rwX,g=rX,o=rX'
-            - name: /usr/lib/footloose-vpc/modules
-              mode: 'u=rwX,g=rX,o=rX'
-            - name: /usr/lib/footloose-vpc/templates
-              mode: 'u=rwX,g=rX,o=rX'
-
-        - name: Restarte nginx service
-          systemd:
-            name: nginx
-            state: restarted
-
-        - name: Restarte fcgiwrap service
-          systemd:
-            name: fcgiwrap
-            state: restarted
-
-        - name: Set cron task for rm old sessions files
-          cron:
-            name: "Remove old sessions files"
-            minute: "0"
-            job: "0 7 * * * find /usr/lib/footloose-vpc/tmp/ -type f -mtime +14 -delete"
+          loop: "{{ copydocker_list }}"
+          when:
+            - copydocker_list is defined
+            - copydocker_list is iterable
+            - copydocker_list | length > 0
 
       tags:
-        - web-config
+        - docker-copy
+
+    - name: start docker-compose
+      shell: "cd /opt/docker; docker-compose up -d"
+
+      tags:
+        - docker-start

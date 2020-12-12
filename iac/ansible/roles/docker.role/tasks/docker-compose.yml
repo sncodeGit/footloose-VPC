@@ -18,3 +18,9 @@
     url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
     dest: "{{ docker_compose_path }}"
     mode: 0755
+
+- name: Create symbolic link 
+  file:
+    src: "{{ docker_compose_path }}"
+    dest: "/usr/bin/docker-compose"
+    state: link

@@ -1,0 +1,43 @@
+---
+
+- name: install pip3
+  apt:
+    name: python3-pip
+    update_cache: yes
+    state: present
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: install pip3
+  yum:
+    name: python3-pip
+    update_cache: yes
+    state: present
+  when:
+    - ansible_os_family == 'RedHat'
+
+- name: Install python docker
+  command: "pip3 install {{ item }}"
+  loop:
+    - setuptools
+    - docker
+
+# - pip:
+#     name: "{{ item }}"
+#     executable: "/usr/bin/pip3"
+#   loop:
+#     - docker
+
+- name: Copy files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: a+x
+  loop:
+    - { src: healthcheck.py, dest: '/opt/docker/scripts/' }
+
+- cron:
+    name: "cron for docker healthcheck python script"
+    user: root
+    minute: "{{ d_healthcheck_cron_minute | default ('*/1') }}"
+    job: '/opt/docker/scripts/healthcheck.py'
