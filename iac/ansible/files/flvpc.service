@@ -1,0 +1,21 @@
+[Unit]
+Description=Footloose-VPC
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/flvpc.pid
+WorkingDirectory=/usr/lib/footloose-vpc
+User=root
+Environment=FLASK_APP=/usr/lib/footloose-vpc/grid/main.py
+Group=root
+OOMScoreAdjust=-100
+
+ExecStart=/usr/local/bin/flask run -h 0.0.0.0 -p 5555
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target

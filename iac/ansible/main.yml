@@ -56,7 +56,25 @@
         requirements: '/usr/lib/footloose-vpc/grid/requirements.txt'
       tags: python-packages-install
 
-    - name: start site
-      shell: "cd /usr/lib/footloose-vpc/grid; export FLASK_APP=main.py; flask run -h 0.0.0.0 -p 5555 &"
+    - name: Config systemd
+      block:
+
+        - name: copy systemd unit file
+          copy:
+            src: flvpc.service
+            dest: /etc/systemd/system
+            owner: root
+            group: root
+            mode: '0755'
+
+        - name: Enable service
+          shell: "systemctl enable flvpc"
+
+        - name: Start service
+          shell: "systemctl start flvpc"
+
+        - name: Daemon reload for systemd
+          shell: "systemctl daemon-reload"
+
       tags:
-        - site-start
+        - systemd-config
