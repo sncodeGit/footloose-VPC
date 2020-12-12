@@ -450,8 +450,9 @@ def get_info():
     #     output = subproc.stderr
     # else:
     #     output = subproc.stdout
-    output = subproc.stdout.read()+subproc.stderr.read()
-    return render_template('getinfo.html', content=subproc.stderr)
+    output = subproc.stdout
+    output1 = subproc.stderr
+    return render_template('getinfo.html', content=output, content1=output1)
 
 
 # @app.route('/admim/manageclusters/manage', methods=['GET', 'POST'])
@@ -490,20 +491,71 @@ def stop_cluster():
     #     output = subproc.stderr
     # else:
     #     output = subproc.stdout
-    return render_template('stopcluster.html', content=subproc.stderr)
+    output = subproc.stdout
+    output1 = subproc.stderr
+    return render_template('stopcluster.html', content=output, content1=output1)
 
 
-# @app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
-# @login_required
-# def stop_cluster():
-#     id = current_user.get_id()
-#     user = User.query.filter_by(id=id).first()
-#     if user.is_admin == 1:
-#         return redirect(url_for('admin'))
-#     if not UserNamespaces.query.filter_by(login=user.login).first():
-#         flash("You haven't right")
-#     else:
-#         pass
-#
-#
-#     return render_template('.html')
+@app.route('/admim/manageclusters/start', methods=['GET', 'POST'])
+@login_required
+def start_cluster():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    file = 'startCluster.sh'
+    namespace = request.cookies.get('namespace')
+    subproc = subprocess.Popen([config.path+file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subproc.wait()
+    # if subproc.stderr:
+    #     flash('No clusters')
+    #     output = subproc.stderr
+    # else:
+    #     output = subproc.stdout
+    output = subproc.stdout
+    output1 = subproc.stderr
+    return render_template('stopcluster.html', content=output, content1=output1)
+
+
+@app.route('/admim/manageclusters/delete', methods=['GET', 'POST'])
+@login_required
+def delete_cluster():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    file = 'deleteCluster.sh'
+    namespace = request.cookies.get('namespace')
+    r = UserNamespaces.query.filter_by(login=user.login, name=namespace).first()
+    if r.full_right == 0:
+        flash('No rights')
+    else:
+        subproc = subprocess.Popen([config.path+file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subproc.wait()
+        # if subproc.stderr:
+        #     flash('No clusters')
+        #     output = subproc.stderr
+        # else:
+        #     output = subproc.stdout
+        output = subproc.stdout
+        output1 = subproc.stderr
+        return render_template('stopcluster.html', content=output, content1=output1)
+    return render_template('stopcluster.html')
+
+
+#here
+@app.route('/admim/manageclusters/addssh', methods=['GET', 'POST'])
+@login_required
+def add_ssh():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    file = 'deleteCluster.sh'
+    namespace = request.cookies.get('namespace')
+    r = UserNamespaces.query.filter_by(login=user.login, name=namespace).first()
+    subproc = subprocess.Popen([config.path+file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subproc.wait()
+    output = subproc.stdout
+    output1 = subproc.stderr
+    return render_template('stopcluster.html', content=output, content1=output1, content2=keys)
