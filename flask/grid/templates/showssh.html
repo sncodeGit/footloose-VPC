@@ -31,15 +31,14 @@
 <body>
 <div class="topnav">
   <a href="{{ url_for('user') }}">Home</a>
-      <a href="{{ url_for('manage_clusters') }}">Manage clusters</a>
-    <a href="{{ url_for('logout') }}">Show clusters</a>
+      <a href="{{ url_for('choose_namespace') }}">Manage namespaces</a>
     <a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
 {% block content %}
     {% for elem in content %}
 <!--        {{elem[0]}}  {{elem[1]}}<br>-->
-        {{elem}}<br>
+        Name: {{elem[0]}}     Key: {{elem[1]}}<br><br><br>
     {% endfor %}
 {% endblock %}
 

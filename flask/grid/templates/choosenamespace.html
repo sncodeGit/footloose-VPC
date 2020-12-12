@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>user</title>
+    <title>choose namespace</title>
         <style>
         /* Add a black background color to the top navigation */
 .topnav {
@@ -35,13 +35,24 @@
     <a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
-    <table>
-        <tr>
-            <td><a href="{{ url_for('create_ssh') }}">create ssh</a></td>
+
+<form method="POST">
+<table>
+<tr>
+            <td>Choose namespace</td>
+            <td><select name="namespace">
+                {% block content %}
+                    {% for elem in content %}
+                <option>{{elem}}</option>
+                    {% endfor %}
+                {% endblock %}
+              </select>
+        </td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('show_ssh') }}">show or delete ssh</a></td>
+            <td><input type="submit" value="Choose"></td>
         </tr>
     </table>
+</form>
 </body>
 </html>

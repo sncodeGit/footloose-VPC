@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from flask_login import LoginManager, current_user
@@ -6,6 +6,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 import subprocess
+import config
 
 
 # Инициализация приложения и бд
@@ -38,8 +39,8 @@ class UserNamespaces(db.Model, UserMixin):
 
 class Sshkeys(db.Model, UserMixin):
     login = db.Column(db.String(128), db.ForeignKey('user.login'))
+    key = db.Column(db.String(700), nullable=False)
     name = db.Column(db.String(40), primary_key=True)
-    key = db.column(db.String(255))
 
 
 # class Clusters(db.Model, UserMixin):
@@ -341,18 +342,6 @@ def user():
         return redirect(url_for('admin'))
 
 
-@app.route('/user/showclusters', methods=['GET'])
-@login_required
-def show_clusters():
-    id = current_user.get_id()
-    user = User.query.filter_by(id=id).first()
-    if user.is_admin == 1:
-        return redirect(url_for('admin'))
-
-
-    return render_template('showclusters.html')
-
-
 @app.route('/user/managessh', methods=['GET'])
 @login_required
 def manage_ssh():
@@ -385,8 +374,8 @@ def show_ssh():
         return redirect(url_for('admin'))
     keys = []
     for k in Sshkeys.query.filter_by(login=user.login):
-        # keys.append((str(k.name), str(k.key)))
-        keys.append(str(k.name))
+        keys.append((str(k.name), str(k.key)))
+        #keys.append(str(k.name))
     if request.method == 'POST':
         name = request.form.get('name')
         ssh_name = Sshkeys.query.filter_by(name=name).first()
@@ -425,6 +414,26 @@ def create_ssh():
 
 
 #manage clusters
+@app.route('/user/choosenamespace', methods=['GET', 'POST'])
+@login_required
+def choose_namespace():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    namespaces = []
+    for u in UserNamespaces.query.filter_by(login=user.login):
+        namespaces.append(str(u.name))
+    if request.method == 'POST':
+        n = request.form.get('namespace')
+        if not n:
+            n = ''
+        res = make_response(render_template('manageclusters.html'))
+        res.set_cookie('namespace', n, max_age=60*60*24)
+        return res
+    return render_template('choosenamespace.html', content=namespaces)
+
+
 @app.route('/admim/manageclusters/info', methods=['GET', 'POST'])
 @login_required
 def get_info():
@@ -432,21 +441,54 @@ def get_info():
     user = User.query.filter_by(id=id).first()
     if user.is_admin == 1:
         return redirect(url_for('admin'))
-    #переменная для вывода
-    output = ['']
-    #дальше код, который выполняет скрипт:
-
-    return render_template('getinfo.html', content=output)
+    
+    return render_template('getinfo.html')
 
 
-# @app.route('/admim/manageclusters/info', methods=['GET', 'POST'])
+# @app.route('/admim/manageclusters/manage', methods=['GET', 'POST'])
 # @login_required
-# def get_info():
+# def manage():
 #     id = current_user.get_id()
 #     user = User.query.filter_by(id=id).first()
 #     if user.is_admin == 1:
 #         return redirect(url_for('admin'))
 #
+#     if not UserNamespaces.query.filter_by(login=user.login).first():
+#         flash("You haven't right")
+#     else:
+#         pass
 #
 #
-#     return render_template('manage_cluster')
+#     return render_template('manage.html')
+#
+#
+# @app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
+# @login_required
+# def stop_cluster():
+#     id = current_user.get_id()
+#     user = User.query.filter_by(id=id).first()
+#     if user.is_admin == 1:
+#         return redirect(url_for('admin'))
+#     if not UserNamespaces.query.filter_by(login=user.login).first():
+#         flash("You haven't right")
+#     else:
+#         pass
+#
+#
+#     return render_template('stopcluster.html')
+#
+#
+# @app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
+# @login_required
+# def stop_cluster():
+#     id = current_user.get_id()
+#     user = User.query.filter_by(id=id).first()
+#     if user.is_admin == 1:
+#         return redirect(url_for('admin'))
+#     if not UserNamespaces.query.filter_by(login=user.login).first():
+#         flash("You haven't right")
+#     else:
+#         pass
+#
+#
+#     return render_template('.html')

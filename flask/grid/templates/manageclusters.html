@@ -31,30 +31,37 @@
 <body>
 <div class="topnav">
   <a href="{{ url_for('user') }}">Home</a>
-  <a href="{{ url_for('manage_users') }}">Manage clusters</a>
-  <a href="{{ url_for('show_clusters') }}">Show clusters</a>
+  <a href="{{ url_for('choose_namespace') }}">Manage namespaces</a>
+<a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
     <table>
         <tr>
-            <td><a href="{{ url_for('get_info') }}">get cluster info</a></td>
+            <td><a href="{{ url_for('create_namespaces') }}">Get cluster info</a></td>
+        </tr>
+
+        <tr>
+            <td><a href="{{ url_for('show_connects') }}">manage cluster resources</a></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('manage_resources') }}">manage cluster resources</a></td>
+            <td><a href="{{ url_for('delete_connections') }}">stop cluster</a></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('stop_cluster') }}">stop cluster</a></td>
+            <td><a href="{{ url_for('delete_connections') }}">start cluster</a></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('start_cluster') }}">start cluster</a></td>
+            <td><a href="{{ url_for('delete_connections') }}">delete cluster</a></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('delete_cluster') }}">delete cluster</a></td>
+            <td><a href="{{ url_for('delete_connections') }}">create cluster</a></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('create_cluster') }}">create cluster</a></td>
+            <td><a href="{{ url_for('delete_connections') }}">add ssh</a></td>
+        </tr>
+        <tr>
+            <td><a href="{{ url_for('delete_connections') }}">delete ssh</a></td>
         </tr>
     </table>
-
+<h1>Hi nigga</h1>
 </body>
 </html>
