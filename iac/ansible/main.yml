@@ -7,13 +7,14 @@
     - { role: docker.role, tags: docker-install }
     - { role: ignite.role, tags: ignite-install }
     - { role: footloose.role, tags: footloose-install }
+    - { role: mysql.role, tags: mysql-install }
 
   post_tasks:
 
     - name: Copy docker
       block:
 
-        - name: Creates directory
+        - name: Creates site directory
           file:
             path: "{{ item }}"
             state: directory
@@ -24,21 +25,38 @@
             - createfolder_list is iterable
             - createfolder_list | length > 0
 
-        - name: Copy files (docker-compose)
-          copy:
+        - name: Synchronize site directories
+          synchronize:
             src: "{{ item.src }}"
             dest: "{{ item.dest }}"
-          loop: "{{ copydocker_list }}"
+          loop: "{{ syncsite_list }}"
           when:
-            - copydocker_list is defined
-            - copydocker_list is iterable
-            - copydocker_list | length > 0
+            - syncsite_list is defined
+            - syncsite_list is iterable
+            - syncsite_list | length > 0
+
+        - name: Fix permissions to the syncsite_list
+          file:
+            path: "{{ item.dest }}/{{ item.name }}"
+            owner: "{{ item.owner }}"
+            group: "{{ item.group }}"
+            mode: "{{ item.mode }}"
+            recurse: yes
+          loop: "{{ syncsite_list }}"
+          when:
+            - syncsite_list is defined
+            - syncsite_list is iterable
+            - syncsite_list | length > 0
 
       tags:
-        - docker-copy
+        - site-copy
 
-    - name: start docker-compose
-      shell: "cd /opt/docker; docker-compose up -d"
+    - name: Install specified python requirements
+      pip:
+        requirements: '/usr/lib/footloose-vpc/grid/requirements.txt'
+      tags: python-packages-install
 
+    - name: start site
+      shell: "cd /usr/lib/footloose-vpc/grid; export FLASK_APP=main.py; flask run -h 0.0.0.0 -p 5555 &"
       tags:
-        - docker-start
+        - site-start
