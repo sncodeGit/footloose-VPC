@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>manage namespaces</title>
+    <title>show clusters</title>
         <style>
         /* Add a black background color to the top navigation */
 .topnav {
@@ -35,20 +35,32 @@
   <a href="{{ url_for('manage_namespaces') }}">Manage namespaces</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
-    <table>
+{% block content %}
+    {% for elem in content %}
+        {{elem}}<br>
+    {% endfor %}
+{% endblock %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST">
+<table>
         <tr>
-            <td><a href="{{ url_for('create_namespaces') }}">create namespaces</a></td>
+            <td>choose cluster's name</td>
+            <td><input type="text" name="cluster"></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('show_namespaces') }}">show namespaces and connect with users</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('show_connects') }}">show connects and change rights</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('delete_connections') }}">delete connections</a></td>
+            <td><input type="submit" value="Delete"></td>
         </tr>
     </table>
-
+</form>
 </body>
 </html>

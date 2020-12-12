@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>manage namespaces</title>
+    <title>user</title>
         <style>
         /* Add a black background color to the top navigation */
 .topnav {
@@ -30,25 +30,19 @@
 </head>
 <body>
 <div class="topnav">
-  <a href="{{ url_for('admin') }}">Home</a>
-  <a href="{{ url_for('manage_users') }}">Manage users</a>
-  <a href="{{ url_for('manage_namespaces') }}">Manage namespaces</a>
+  <a href="{{ url_for('user') }}">Home</a>
+      <a href="{{ url_for('manage_clusters') }}">Manage clusters</a>
+    <a href="{{ url_for('logout') }}">Show clusters</a>
+    <a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
     <table>
         <tr>
-            <td><a href="{{ url_for('create_namespaces') }}">create namespaces</a></td>
+            <td><a href="{{ url_for('create_ssh') }}">create ssh</a></td>
         </tr>
         <tr>
-            <td><a href="{{ url_for('show_namespaces') }}">show namespaces and connect with users</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('show_connects') }}">show connects and change rights</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('delete_connections') }}">delete connections</a></td>
+            <td><a href="{{ url_for('show_ssh') }}">show or delete ssh</a></td>
         </tr>
     </table>
-
 </body>
 </html>

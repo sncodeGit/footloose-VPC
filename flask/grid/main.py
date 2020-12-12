@@ -5,6 +5,7 @@ from flask_login import LoginManager, current_user
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
+import subprocess
 
 
 # Инициализация приложения и бд
@@ -35,15 +36,21 @@ class UserNamespaces(db.Model, UserMixin):
     full_right = db.Column(db.Integer, default=0)
 
 
-class Clusters(db.Model, UserMixin):
-    name = db.Column(db.String(40), db.ForeignKey('namespaces.name'), primary_key=True)
-    nodecount = db.Column(db.Integer)
-    nodename = db.Column(db.String(40))
-    nodeimage = db.Column(db.Integer)
-    cpulimit = db.Column(db.Integer)
-    memorylimit = db.Column(db.Integer)
-    disklimit = db.Column(db.Integer)
-    kernelimage = db.Column(db.Integer)
+class Sshkeys(db.Model, UserMixin):
+    login = db.Column(db.String(128), db.ForeignKey('user.login'))
+    name = db.Column(db.String(40), primary_key=True)
+    key = db.column(db.String(255))
+
+
+# class Clusters(db.Model, UserMixin):
+#     name = db.Column(db.String(40), db.ForeignKey('namespaces.name'), primary_key=True)
+#     nodecount = db.Column(db.Integer)
+#     nodename = db.Column(db.String(40))
+#     nodeimage = db.Column(db.String(40))
+#     cpulimit = db.Column(db.Integer)
+#     memorylimit = db.Column(db.Integer)
+#     disklimit = db.Column(db.Integer)
+#     kernelimage = db.Column(db.String(40))
 
 
 db.create_all()
@@ -334,6 +341,112 @@ def user():
         return redirect(url_for('admin'))
 
 
-# @app.route('/user/showclusters', methods=['GET'])
+@app.route('/user/showclusters', methods=['GET'])
+@login_required
+def show_clusters():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+
+
+    return render_template('showclusters.html')
+
+
+@app.route('/user/managessh', methods=['GET'])
+@login_required
+def manage_ssh():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    return render_template('managessh.html')
+
+
+@app.route('/user/manageclusters', methods=['GET', 'POST'])
+@login_required
+def manage_clusters():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    # if check.full_right == 0:
+    #     flash("No access")
+    #     return redirect(url_for('user'))
+    return render_template('manageclusters.html')
+
+
+@app.route('/user/managessh/showssh', methods=['GET', 'POST'])
+@login_required
+def show_ssh():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    keys = []
+    for k in Sshkeys.query.filter_by(login=user.login):
+        # keys.append((str(k.name), str(k.key)))
+        keys.append(str(k.name))
+    if request.method == 'POST':
+        name = request.form.get('name')
+        ssh_name = Sshkeys.query.filter_by(name=name).first()
+        if not ssh_name:
+            flash('This ssh not exist')
+        else:
+            db.session.delete(ssh_name)
+            db.session.commit()
+            return redirect(url_for('show_ssh'))
+    return render_template('showssh.html', content=keys)
+
+
+@app.route('/admim/managessh/createssh', methods=['GET', 'POST'])
+@login_required
+def create_ssh():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    name = request.form.get('name')
+    ssh = request.form.get('ssh')
+
+    if request.method == 'POST':
+        if not (name or ssh):
+            flash('Please, fill all fields!')
+        else:
+            if Sshkeys.query.filter_by(name=name).first():
+                flash('user is already exist')
+            else:
+                new_ssh = Sshkeys(login=user.login, name=name, key=ssh)
+                db.session.add(new_ssh)
+                db.session.commit()
+                return redirect(url_for('manage_ssh'))
+
+    return render_template('createssh.html')
+
+
+#manage clusters
+@app.route('/admim/manageclusters/info', methods=['GET', 'POST'])
+@login_required
+def get_info():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    #переменная для вывода
+    output = ['']
+    #дальше код, который выполняет скрипт:
+
+    return render_template('getinfo.html', content=output)
+
+
+# @app.route('/admim/manageclusters/info', methods=['GET', 'POST'])
 # @login_required
-# deg
+# def get_info():
+#     id = current_user.get_id()
+#     user = User.query.filter_by(id=id).first()
+#     if user.is_admin == 1:
+#         return redirect(url_for('admin'))
+#
+#
+#
+#     return render_template('manage_cluster')
