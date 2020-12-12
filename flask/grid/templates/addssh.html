@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>show ssh</title>
+    <title>add ssh</title>
         <style>
         /* Add a black background color to the top navigation */
 .topnav {
@@ -35,21 +35,21 @@
     <a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
-{% block content %}
-    {% for elem in content %}
-<!--        {{elem[0]}}  {{elem[1]}}<br>-->
-        Name: {{elem[0]}}     Key: {{elem[1]}}<br><br><br>
-    {% endfor %}
-{% endblock %}
-
 <form method="POST">
 <table>
         <tr>
-            <td>choose ssh</td>
-            <td><input type="text" name="name"></td>
+            <td>choose key</td>
+            <td><select name="key">
+                {% block content3 %}
+                    {% for elem in content3 %}
+                <option>{{elem}}</option>
+                    {% endfor %}
+                {% endblock %}
+              </select>
+        </td>
         </tr>
         <tr>
-            <td><input type="submit" value="Delete"></td>
+            <td><input type="submit" value="Choose"></td>
         </tr>
     </table>
 </form>

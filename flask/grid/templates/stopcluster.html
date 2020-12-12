@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>info</title>
+    <title>Output</title>
       <style>
         /* Add a black background color to the top navigation */
 .topnav {
@@ -29,6 +29,12 @@
     </style>
 </head>
 <body>
+<div class="topnav">
+  <a href="{{ url_for('user') }}">Home</a>
+  <a href="{{ url_for('choose_namespace') }}">Manage namespaces</a>
+<a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
     {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>

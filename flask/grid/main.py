@@ -43,17 +43,6 @@ class Sshkeys(db.Model, UserMixin):
     name = db.Column(db.String(40), primary_key=True)
 
 
-# class Clusters(db.Model, UserMixin):
-#     name = db.Column(db.String(40), db.ForeignKey('namespaces.name'), primary_key=True)
-#     nodecount = db.Column(db.Integer)
-#     nodename = db.Column(db.String(40))
-#     nodeimage = db.Column(db.String(40))
-#     cpulimit = db.Column(db.Integer)
-#     memorylimit = db.Column(db.Integer)
-#     disklimit = db.Column(db.Integer)
-#     kernelimage = db.Column(db.String(40))
-
-
 db.create_all()
 
 
@@ -452,24 +441,7 @@ def get_info():
     #     output = subproc.stdout
     output = subproc.stdout
     output1 = subproc.stderr
-    return render_template('getinfo.html', content=output, content1=output1)
-
-
-# @app.route('/admim/manageclusters/manage', methods=['GET', 'POST'])
-# @login_required
-# def manage():
-#     id = current_user.get_id()
-#     user = User.query.filter_by(id=id).first()
-#     if user.is_admin == 1:
-#         return redirect(url_for('admin'))
-#
-#     if not UserNamespaces.query.filter_by(login=user.login).first():
-#         flash("You haven't right")
-#     else:
-#         pass
-#
-#
-#     return render_template('manage.html')
+    return render_template('stopcluster.html', content=output, content1=output1)
 
 
 @app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
@@ -543,7 +515,6 @@ def delete_cluster():
     return render_template('stopcluster.html')
 
 
-#here
 @app.route('/admim/manageclusters/addssh', methods=['GET', 'POST'])
 @login_required
 def add_ssh():
@@ -551,11 +522,96 @@ def add_ssh():
     user = User.query.filter_by(id=id).first()
     if user.is_admin == 1:
         return redirect(url_for('admin'))
-    file = 'deleteCluster.sh'
+    file = 'addSSHkey.sh'
+    namespace = request.cookies.get('namespace')
+    keys = []
+    for k in Sshkeys.query.filter_by(login=user.login):
+        keys.append(k.name)
+    if request.method == 'POST':
+        k = request.form.get('key')
+        ssh_name = Sshkeys.query.filter_by(name=k).first()
+        subproc = subprocess.Popen([config.path+file, namespace, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subproc.wait()
+        output = subproc.stdout
+        output1 = subproc.stderr
+        return render_template('stopcluster.html', content=output, content1=output1)
+    return render_template('addssh.html', content3=keys)
+
+
+@app.route('/admim/manageclusters/delssh', methods=['GET', 'POST'])
+@login_required
+def del_ssh():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    file = 'delSSHkey.sh'
+    namespace = request.cookies.get('namespace')
+    keys = []
+    for k in Sshkeys.query.filter_by(login=user.login):
+        keys.append(k.name)
+    if request.method == 'POST':
+        k = request.form.get('key')
+        ssh_name = Sshkeys.query.filter_by(name=k).first()
+        subproc = subprocess.Popen([config.path+file, namespace, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subproc.wait()
+        output = subproc.stdout
+        output1 = subproc.stderr
+        return render_template('stopcluster.html', content=output, content1=output1)
+    return render_template('delssh.html', content3=keys)
+
+@app.route('/admim/manageclusters/create', methods=['GET', 'POST'])
+@login_required
+def create_cluster():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    file = 'createCluster.sh'
     namespace = request.cookies.get('namespace')
     r = UserNamespaces.query.filter_by(login=user.login, name=namespace).first()
-    subproc = subprocess.Popen([config.path+file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    subproc.wait()
-    output = subproc.stdout
-    output1 = subproc.stderr
-    return render_template('stopcluster.html', content=output, content1=output1, content2=keys)
+    if r.full_right == 0:
+        flash('No rights')
+    else:
+        namespace = request.cookies.get('namespace')
+        subproc = subprocess.Popen([config.path+file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subproc.wait()
+        output = subproc.stdout
+        output1 = subproc.stderr
+        return render_template('stopcluster.html', content=output, content1=output1)
+    return render_template('stopcluster.html')
+
+@app.route('/admim/manageclusters/manage', methods=['GET', 'POST'])
+@login_required
+def manage():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+
+    file = 'createClusterConfig.py'
+    namespace = request.cookies.get('namespace')
+    r = UserNamespaces.query.filter_by(login=user.login, name=namespace).first()
+    if r.full_right == 0:
+        flash('No rights')
+    else:
+        nodecount = request.form.get('nodecount')
+        nodename = request.form.get('nodename')
+        nodeimage = request.form.get('nodeimage')
+        hostport = request.form.get('hostport')
+        cpulimit = request.form.get('cpulimit')
+        memorylimit = request.form.get('memorylimit')
+        disklimit = request.form.get('disklimit')
+        kernelimage = request.form.get('kernelimage')
+        if request.method == 'POST':
+            if not (nodecount and nodename and nodeimage and hostport and cpulimit and memorylimit and disklimit and kernelimage):
+                flash('Please, fill all fields!')
+            else:
+                subproc = subprocess.Popen([config.path + file, namespace, nodecount, nodename, nodeimage, hostport, cpulimit, memorylimit, disklimit, kernelimage], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                subproc.wait()
+                output = subproc.stdout
+                output1 = subproc.stderr
+                return render_template('stopcluster.html', content=output, content1=output1)
+    return render_template('manage.html')
+
+

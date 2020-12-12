@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>create ssh</title>
-        <style>
+    <title>manage</title>
+           <style>
         /* Add a black background color to the top navigation */
 .topnav {
     background-color: #FFFFFF;
@@ -48,19 +48,42 @@
 <form method="POST">
     <table>
         <tr>
-            <td>name</td>
-            <td><input type="text" name="name"></td>
+            <td>Node count</td>
+            <td><input type="text" name="nodecount"></td>
         </tr>
         <tr>
-            <td>ssh</td>
-            <td><input type="text" name="ssh"></td>
+            <td>Node name</td>
+            <td><input type="text" name="nodename"></td>
         </tr>
         <tr>
-            <td><input type="submit" value="create"></td>
+            <td>Node image</td>
+            <td><input type="text" name="nodeimage"></td>
+        </tr>
+        <tr>
+            <td>Host port</td>
+            <td><input type="text" name="hostport"></td>
+        </tr>
+        <tr>
+            <td>CPU limit</td>
+            <td><input type="text" name="cpulimit"></td>
+        </tr>
+        <tr>
+            <td>Memory limit</td>
+            <td><input type="text" name="memorylimit"></td>
+        </tr>
+        <tr>
+            <td>Disk limit</td>
+            <td><input type="text" name="disklimit"></td>
+        </tr>
+        <tr>
+            <td>Kernel image</td>
+            <td><input type="text" name="kernelimage"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="change"></td>
         </tr>
     </table>
 </form>
-<body>
 
 </body>
 </html>
