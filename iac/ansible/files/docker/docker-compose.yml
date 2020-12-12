@@ -9,6 +9,8 @@ services:
   flvpc:
     image: sncodegit/footloose-vpc
     container_name: footloose-vpc
+    depends_on:
+      - "flvpc_db"
     hostname: footloose-vpc
     restart: always
     ports:
