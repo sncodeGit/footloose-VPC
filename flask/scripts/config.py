@@ -1,4 +1,4 @@
 DIR_PATH = {
-    'clusters_dir': '/tmp',
-    'templates': '/Users/inter000/tmp/footloose-VPC/flask/scripts/templates'
+    'clusters_dir': '/usr/lib/footloose-vpc/configs',
+    'templates': '/usr/lib/footloose-VPC/scripts/templates'
 }

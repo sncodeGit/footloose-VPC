@@ -1,1 +1,1 @@
-CLUSTER_DIR="/tmp"
+CLUSTER_DIR="/usr/lib/footloose-vpc/configs"

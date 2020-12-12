@@ -33,4 +33,4 @@ When creating a VM, you can set the host port to be forwarded as the SSH port of
 The specified host port will be the port to be forwarded for the first node of the footloose cluster. for the remaining nodes, the following hosts will be taken in order.
 
 ## IAC
-`/iac/ansible` - **Ansible** is used to install and configure: **Docker**, **Ignite**, **Fooloose**, **MySQL** (for web), **Flask** and other some python packages [see `/flask/grid`] (for web). The site code is also delivered to the server, and its launch is added to the startup via **systemd**
+`/iac/ansible` - **Ansible** is used to install and configure: **Docker**, **Ignite**, **Fooloose**, **MySQL** (for web), **Flask** and other some python packages [see `/flask/grid`] (for web). The site code is also delivered to the server to `/usr/lib/footloose-vpc/configs`, and its launch is added to the startup via **systemd**
