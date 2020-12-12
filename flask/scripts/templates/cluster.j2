@@ -3,8 +3,8 @@ cluster:
   privateKey: cluster-key
 machines:
 - count: {{ j2_vars['NodeCount'] }}
-  backend: ignite
   spec:
+    backend: ignite
     image: {{ j2_vars['NodeImage'] }}
     name: {{ j2_vars['NodeName'] }}
     portMappings:
