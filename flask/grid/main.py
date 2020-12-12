@@ -441,8 +441,17 @@ def get_info():
     user = User.query.filter_by(id=id).first()
     if user.is_admin == 1:
         return redirect(url_for('admin'))
-    
-    return render_template('getinfo.html')
+    file = 'getClusterInfo.sh'
+    namespace = request.cookies.get('namespace')
+    subproc = subprocess.Popen([config.path+file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subproc.wait()
+    # if subproc.stderr:
+    #     flash('No clusters')
+    #     output = subproc.stderr
+    # else:
+    #     output = subproc.stdout
+    output = subproc.stdout.read()+subproc.stderr.read()
+    return render_template('getinfo.html', content=subproc.stderr)
 
 
 # @app.route('/admim/manageclusters/manage', methods=['GET', 'POST'])
@@ -460,24 +469,30 @@ def get_info():
 #
 #
 #     return render_template('manage.html')
-#
-#
-# @app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
-# @login_required
-# def stop_cluster():
-#     id = current_user.get_id()
-#     user = User.query.filter_by(id=id).first()
-#     if user.is_admin == 1:
-#         return redirect(url_for('admin'))
-#     if not UserNamespaces.query.filter_by(login=user.login).first():
-#         flash("You haven't right")
-#     else:
-#         pass
-#
-#
-#     return render_template('stopcluster.html')
-#
-#
+
+
+@app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
+@login_required
+def stop_cluster():
+    id = current_user.get_id()
+    user = User.query.filter_by(id=id).first()
+    if user.is_admin == 1:
+        return redirect(url_for('admin'))
+    # if not UserNamespaces.query.filter_by(login=user.login).first():
+    #     flash("You haven't right")
+    # else:
+    file = 'stopCluster.sh'
+    namespace = request.cookies.get('namespace')
+    subproc = subprocess.Popen([config.path + file, namespace], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subproc.wait()
+    # if subproc.stderr:
+    #     flash(f'No active cluster in this namespace: {namespace}')
+    #     output = subproc.stderr
+    # else:
+    #     output = subproc.stdout
+    return render_template('stopcluster.html', content=subproc.stderr)
+
+
 # @app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
 # @login_required
 # def stop_cluster():
