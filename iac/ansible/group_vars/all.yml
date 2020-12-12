@@ -204,6 +204,7 @@ mysql_users:
 
 createfolder_list:
   - /usr/lib/footloose-vpc
+  - /usr/lib/footloose-vpc/configs
 
 syncsite_list:
   - src: '../../flask/grid'
