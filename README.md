@@ -32,6 +32,19 @@ When creating a VM, you can set the host port to be forwarded as the SSH port of
 
 The specified host port will be the port to be forwarded for the first node of the footloose cluster. for the remaining nodes, the following hosts will be taken in order.
 
+Then you can connect to the node using the main host as a jumpHost (for each user, a different linux user will be created on the host). You can enable the following in `.ssh/config`:
+```
+Host NAME
+        HostName NODE_IP
+        Port NODE_PORT
+        ProxyJump USER@HOST_IP
+        User root
+```
+Then use
+```
+ssh NAME
+```
+
 ## Overcommitent
 Overcomitent is implemented via Ignite as follows: you can set as many resources as you want (more than there are on the host server), but they will be consumed in competition mode (the first person to "consume" them is the one who consumes them)
 
