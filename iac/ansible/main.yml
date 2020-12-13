@@ -6,7 +6,7 @@
     - { role: credentials.role, tags: credentials-admins }
     - { role: ignite.role, tags: ignite-install }
     - { role: footloose.role, tags: footloose-install }
-    - { role: docker.role, tags: docker-install }
+    # - { role: docker.role, tags: docker-install }
     - { role: mysql.role, tags: mysql-install }
 
   post_tasks:
