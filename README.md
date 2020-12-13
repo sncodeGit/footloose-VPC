@@ -45,6 +45,10 @@ Then use
 ssh NAME
 ```
 
+## Footloose version
+
+We are using this fork `https://github.com/sncodeGit/footloose` because v. 0.6.3 by default have a problem with ssh to ignite backend
+
 ## Overcommitent
 Overcomitent is implemented via Ignite as follows: you can set as many resources as you want (more than there are on the host server), but they will be consumed in competition mode (the first person to "consume" them is the one who consumes them)
 
