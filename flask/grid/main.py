@@ -102,6 +102,9 @@ def create_users():
                     new_user = User(login=login, password=hash_pwd, is_admin=0)
                     db.session.add(new_user)
                     db.session.commit()
+                    file='createUser.sh'
+                    subproc = subprocess.Popen([config.path+file, user.login], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    subproc.wait()
                     return redirect(url_for('manage_users'))
     else:
         return redirect(url_for('user'))
@@ -534,6 +537,9 @@ def add_ssh():
         subproc.wait()
         output = subproc.stdout
         output1 = subproc.stderr
+        fname = 'addSSH4user.sh'
+        subproc = subprocess.Popen([config.path+fname, user.login, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subproc.wait()
         return render_template('stopcluster.html', content=output, content1=output1)
     return render_template('addssh.html', content3=keys)
 
@@ -555,8 +561,11 @@ def del_ssh():
         ssh_name = Sshkeys.query.filter_by(name=k).first()
         subproc = subprocess.Popen([config.path+file, namespace, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subproc.wait()
+        nfile = 'delSSH4user.sh'
         output = subproc.stdout
         output1 = subproc.stderr
+        subproc = subprocess.Popen([config.path+nfile, user.login, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subproc.wait()
         return render_template('stopcluster.html', content=output, content1=output1)
     return render_template('delssh.html', content3=keys)
 
