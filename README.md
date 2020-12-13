@@ -35,7 +35,7 @@ The specified host port will be the port to be forwarded for the first node of t
 Then you can connect to the node using the main host as a jumpHost (for each user, a different linux user will be created on the host). You can enable the following in `.ssh/config`:
 ```
 Host NAME
-        HostName NODE_IP
+        HostName 127.0.0.1
         Port NODE_PORT
         ProxyJump USER@HOST_IP
         User root
