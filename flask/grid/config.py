@@ -1,1 +1,1 @@
-path = '/home/jason/footloose-VPC/flask/scripts/'
+path = '/usr/lib/footloose-vpc/scripts/'

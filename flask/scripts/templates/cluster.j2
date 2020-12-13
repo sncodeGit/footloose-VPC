@@ -1,6 +1,6 @@
 cluster:
   name: {{ j2_vars['ClusterName'] }}
-  privateKey: cluster-key
+  privateKey: {{ j2_vars['ClusterName'] }}-key
 machines:
 - count: {{ j2_vars['NodeCount'] }}
   spec:

@@ -8,7 +8,7 @@
 #
 # Построчную инфу об узлах
 
-source config.sh
+source /usr/lib/footloose-vpc/scripts/config.sh
 
 cd "$CLUSTER_DIR"
 NODENAME=$(cat "$1.yaml" | grep name | grep % | awk '{print $2}' | sed "s/%s//")

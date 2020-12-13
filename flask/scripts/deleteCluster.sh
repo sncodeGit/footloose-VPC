@@ -4,7 +4,7 @@
 #
 # ClusterName
 
-source config.sh
+source /usr/lib/footloose-vpc/scripts/config.sh
 
 cd "$CLUSTER_DIR"
 footloose -c "$1".yaml delete
