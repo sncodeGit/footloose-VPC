@@ -103,7 +103,7 @@ def create_users():
                     db.session.add(new_user)
                     db.session.commit()
                     file='createUser.sh'
-                    subproc = subprocess.Popen([config.path+file, user.login], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    subproc = subprocess.Popen([config.path+file, login], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                     subproc.wait()
                     return redirect(url_for('manage_users'))
     else:
@@ -376,6 +376,9 @@ def show_ssh():
         else:
             db.session.delete(ssh_name)
             db.session.commit()
+            nfile = 'delSSH4user.sh'
+            subproc = subprocess.Popen([config.path+nfile, user.login, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subproc.wait()
             return redirect(url_for('show_ssh'))
     return render_template('showssh.html', content=keys)
 
@@ -400,6 +403,9 @@ def create_ssh():
                 new_ssh = Sshkeys(login=user.login, name=name, key=ssh)
                 db.session.add(new_ssh)
                 db.session.commit()
+                fname = 'addSSH4user.sh'
+                subproc = subprocess.Popen([config.path+fname, user.login, ssh], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                subproc.wait()
                 return redirect(url_for('manage_ssh'))
 
     return render_template('createssh.html')
@@ -537,9 +543,6 @@ def add_ssh():
         subproc.wait()
         output = subproc.stdout
         output1 = subproc.stderr
-        fname = 'addSSH4user.sh'
-        subproc = subprocess.Popen([config.path+fname, user.login, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        subproc.wait()
         return render_template('stopcluster.html', content=output, content1=output1)
     return render_template('addssh.html', content3=keys)
 
@@ -561,11 +564,8 @@ def del_ssh():
         ssh_name = Sshkeys.query.filter_by(name=k).first()
         subproc = subprocess.Popen([config.path+file, namespace, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subproc.wait()
-        nfile = 'delSSH4user.sh'
         output = subproc.stdout
         output1 = subproc.stderr
-        subproc = subprocess.Popen([config.path+nfile, user.login, ssh_name.key], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        subproc.wait()
         return render_template('stopcluster.html', content=output, content1=output1)
     return render_template('delssh.html', content3=keys)
 
