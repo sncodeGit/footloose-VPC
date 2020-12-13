@@ -45,6 +45,8 @@
   {% endif %}
 {% endwith %}
 
+{% block out %}
+{% if out %}
 <form method="POST">
     <table>
         <tr>
@@ -84,6 +86,8 @@
         </tr>
     </table>
 </form>
+{% endif %}
+{% endblock %}
 
 </body>
 </html>

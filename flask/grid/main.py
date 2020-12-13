@@ -594,7 +594,9 @@ def manage():
     r = UserNamespaces.query.filter_by(login=user.login, name=namespace).first()
     if r.full_right == 0:
         flash('No rights')
+        f = ''
     else:
+        f = '1'
         nodecount = request.form.get('nodecount')
         nodename = request.form.get('nodename')
         nodeimage = request.form.get('nodeimage')
@@ -611,7 +613,7 @@ def manage():
                 subproc.wait()
                 output = subproc.stdout
                 output1 = subproc.stderr
-                return render_template('stopcluster.html', content=output, content1=output1)
-    return render_template('manage.html')
+                return render_template('stopcluster.html', content=output, content1=output1, out=f)
+    return render_template('manage.html', out=f)
 
 
