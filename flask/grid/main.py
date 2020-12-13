@@ -79,7 +79,7 @@ def manage_users():
         return redirect(url_for('user'))
 
 
-@app.route('/admim/manageusers/createusers', methods=['GET', 'POST'])
+@app.route('/admin/manageusers/createusers', methods=['GET', 'POST'])
 @login_required
 def create_users():
     id = current_user.get_id()
@@ -109,7 +109,7 @@ def create_users():
     return render_template('createusers.html')
 
 
-@app.route('/admim/manageusers/showusers', methods=['GET', 'POST'])
+@app.route('/admin/manageusers/showusers', methods=['GET', 'POST'])
 @login_required
 def show_users():
     id = current_user.get_id()
@@ -135,7 +135,7 @@ def show_users():
     return render_template('showusers.html', content=users)
 
 
-@app.route('/admim/managenamespaces', methods=['GET', 'POST'])
+@app.route('/admin/managenamespaces', methods=['GET', 'POST'])
 @login_required
 def manage_namespaces():
     id = current_user.get_id()
@@ -146,7 +146,7 @@ def manage_namespaces():
         return redirect(url_for('user'))
 
 
-@app.route('/admim/managenamaespaces/createnamespaces', methods=['GET', 'POST'])
+@app.route('/admin/managenamaespaces/createnamespaces', methods=['GET', 'POST'])
 @login_required
 def create_namespaces():
     id = current_user.get_id()
@@ -171,7 +171,7 @@ def create_namespaces():
     return render_template('createnamespaces.html')
 
 
-@app.route('/admim/manageusers/shownamespaces', methods=['GET', 'POST'])
+@app.route('/admin/manageusers/shownamespaces', methods=['GET', 'POST'])
 @login_required
 def show_namespaces():
     id = current_user.get_id()
@@ -204,7 +204,7 @@ def show_namespaces():
     return render_template('shownamespaces.html', users=users, namespaces=namespaces)
 
 
-@app.route('/admim/manageusers/showconnects', methods=['GET', 'POST'])
+@app.route('/admin/manageusers/showconnects', methods=['GET', 'POST'])
 @login_required
 def show_connects():
     id = current_user.get_id()
@@ -237,7 +237,7 @@ def show_connects():
 
 
 #here
-@app.route('/admim/manageusers/deleteconnections', methods=['GET', 'POST'])
+@app.route('/admin/manageusers/deleteconnections', methods=['GET', 'POST'])
 @login_required
 def delete_connections():
     id = current_user.get_id()
@@ -377,7 +377,7 @@ def show_ssh():
     return render_template('showssh.html', content=keys)
 
 
-@app.route('/admim/managessh/createssh', methods=['GET', 'POST'])
+@app.route('/admin/managessh/createssh', methods=['GET', 'POST'])
 @login_required
 def create_ssh():
     id = current_user.get_id()
@@ -423,7 +423,7 @@ def choose_namespace():
     return render_template('choosenamespace.html', content=namespaces)
 
 
-@app.route('/admim/manageclusters/info', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/info', methods=['GET', 'POST'])
 @login_required
 def get_info():
     id = current_user.get_id()
@@ -444,7 +444,7 @@ def get_info():
     return render_template('stopcluster.html', content=output, content1=output1)
 
 
-@app.route('/admim/manageclusters/stop', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/stop', methods=['GET', 'POST'])
 @login_required
 def stop_cluster():
     id = current_user.get_id()
@@ -468,7 +468,7 @@ def stop_cluster():
     return render_template('stopcluster.html', content=output, content1=output1)
 
 
-@app.route('/admim/manageclusters/start', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/start', methods=['GET', 'POST'])
 @login_required
 def start_cluster():
     id = current_user.get_id()
@@ -489,7 +489,7 @@ def start_cluster():
     return render_template('stopcluster.html', content=output, content1=output1)
 
 
-@app.route('/admim/manageclusters/delete', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/delete', methods=['GET', 'POST'])
 @login_required
 def delete_cluster():
     id = current_user.get_id()
@@ -515,7 +515,7 @@ def delete_cluster():
     return render_template('stopcluster.html')
 
 
-@app.route('/admim/manageclusters/addssh', methods=['GET', 'POST'])
+@app.route('/user/manageclusters/addssh', methods=['GET', 'POST'])
 @login_required
 def add_ssh():
     id = current_user.get_id()
@@ -538,7 +538,7 @@ def add_ssh():
     return render_template('addssh.html', content3=keys)
 
 
-@app.route('/admim/manageclusters/delssh', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/delssh', methods=['GET', 'POST'])
 @login_required
 def del_ssh():
     id = current_user.get_id()
@@ -560,7 +560,7 @@ def del_ssh():
         return render_template('stopcluster.html', content=output, content1=output1)
     return render_template('delssh.html', content3=keys)
 
-@app.route('/admim/manageclusters/create', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/create', methods=['GET', 'POST'])
 @login_required
 def create_cluster():
     id = current_user.get_id()
@@ -581,7 +581,7 @@ def create_cluster():
         return render_template('stopcluster.html', content=output, content1=output1)
     return render_template('stopcluster.html')
 
-@app.route('/admim/manageclusters/manage', methods=['GET', 'POST'])
+@app.route('/admin/manageclusters/manage', methods=['GET', 'POST'])
 @login_required
 def manage():
     id = current_user.get_id()

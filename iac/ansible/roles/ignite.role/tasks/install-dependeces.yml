@@ -11,6 +11,7 @@
     - git
     - binutils
     - containerd
+    - docker.io
 
 - name: Create dir for CNI
   file:
