@@ -9,7 +9,7 @@ VPC by Footloose container Machines
 ## Install
 1. Install Ansible in your own PC:   
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
-2. `git clone git@github.com:sncodeGit/footloose_vpc.git`
+2. `git clone https://github.com/sncodeGit/footloose-VPC.git`
 3. `cd footloose-VPC/iac/ansible`
 4. Change ip to your server and ssh-keys in **inventory.yml** (ansible_ssh_host variable)
 5. `ansible-playbook -i inventory.yml -b main.yml`
