@@ -1,0 +1,8 @@
+
+- name: Get the binary file of yq
+  get_url:
+    url: "https://github.com/mikefarah/yq/releases/download/{{ YQ_VERSION }}/{{ YQ_BINARY_ARCH }}"
+    dest: "/usr/bin/yq"
+    owner: root
+    group: root
+    mode: 0755

@@ -11,6 +11,13 @@ initial_packages_list:
 initial_pip3_packages_list: []
 
 #############
+# yq
+#############
+
+YQ_VERSION: "v4.7.1"
+YQ_BINARY_ARCH: "yq_linux_amd64"
+
+#############
 # Docker
 #############
 
