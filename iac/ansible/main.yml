@@ -8,6 +8,7 @@
     - { role: footloose.role, tags: footloose-install }
     # - { role: docker.role, tags: docker-install }
     - { role: mysql.role, tags: mysql-install }
+    - { role: yq.role, tags: yq-install }
 
   post_tasks:
 
