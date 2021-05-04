@@ -13,17 +13,17 @@ machines:
       hostPort: {{ j2_vars['HostPort'] }}
 {% endif %}
 {% if j2_vars['CPULimit'] != 'None' or j2_vars['MemoryLimit'] != 'None' or j2_vars['DiskLimit'] != 'None' or j2_vars['KernelImage'] != 'None' -%}
-  ignite:
+    ignite:
 {% if j2_vars['CPULimit'] != 'None' %}
-    cpus: {{ j2_vars['CPULimit'] }}
+      cpus: {{ j2_vars['CPULimit'] }}
 {% endif -%}
 {% if j2_vars['MemoryLimit'] != 'None' %}
-    memory: {{ j2_vars['MemoryLimit'] }}
+      memory: {{ j2_vars['MemoryLimit'] }}
 {% endif -%}
 {% if j2_vars['DiskLimit'] != 'None' %}
-    diskSize: {{ j2_vars['DiskLimit'] }}
+      diskSize: {{ j2_vars['DiskLimit'] }}
 {% endif -%}
 {% if j2_vars['KernelImage'] != 'None' %}
-    kernel: {{ j2_vars['KernelImage'] }}
+      kernel: {{ j2_vars['KernelImage'] }}
 {% endif -%}
 {% endif -%}
