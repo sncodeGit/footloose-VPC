@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="static/Authorization.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <title>show users</title>
     <title>show namespaces</title>
         <style>
         /* Add a black background color to the top navigation */
@@ -45,44 +49,34 @@
   {% endif %}
 {% endwith %}
 <form method="POST">
-<table>
-        <tr>
-            <td>choose namespaces</td>
-            <td><select name="namespaces">
+    <label>Choose namespace:</label>
+<select name="namespaces">
                 {% block namespaces %}
                     {% for elem in namespaces %}
                 <option>{{elem}}</option>
                     {% endfor %}
                 {% endblock %}
               </select>
-        </td>
-        </tr>
-
-            <tr>
-            <td>choose users</td>
-            <td><select name="user">
+    <br>
+     <br>
+<label>Choose User:</label>
+<select name="user">
                 {% block users %}
                     {% for elem in users%}
                 <option>{{elem}}</option>
                     {% endfor %}
                 {% endblock %}
               </select>
-        </td>
-        </tr>
-            </tr>
-
-            <tr>
-            <td>choose rights</td>
-            <td><select name="rights">
+ <br>
+     <br>
+    <label>Choose rights:</label>
+<select name="rights">
                 <option>full</option>
                 <option>not full</option>
               </select>
-        </td>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Connect"></td>
-        </tr>
-    </table>
+     <br>
+     <br>
+            <button type="submit" class="btn btn-default" >Connect</button>
 </form>
 </body>
 </html>
