@@ -52,9 +52,9 @@ def load_user(user_id):
 
 
 #login, create root and admin:
-@app.route('/', methods=['GET'])
-def hello_world():
-    return render_template('index.html')
+# @app.route('/', methods=['GET'])
+# def hello_world():
+#     return render_template('index.html')
 
 
 @app.route('/admin', methods=['GET'])
@@ -261,7 +261,7 @@ def delete_connections():
     return render_template('deleteconnections.html', content=users)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login_page():
     ad = User.query.filter_by(is_admin=1).first()
     if not ad:
@@ -313,7 +313,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('login_page'))
 
 
 @app.after_request
@@ -624,5 +624,3 @@ def manage():
                 output1 = subproc.stderr
                 return render_template('stopcluster.html', content=output, content1=output1, out=f)
     return render_template('manage.html', out=f)
-
-
