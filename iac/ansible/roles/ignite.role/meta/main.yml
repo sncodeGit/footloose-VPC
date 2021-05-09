@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: ignite.role
+  description: ignite.role
+  author: sncodegit
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+
+dependencies: []

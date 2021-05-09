@@ -52,5 +52,7 @@ We are using this fork `https://github.com/sncodeGit/footloose` because v. 0.6.3
 ## Overcommitent
 Overcomitent is implemented via Ignite as follows: you can set as many resources as you want (more than there are on the host server), but they will be consumed in competition mode (the first person to "consume" them is the one who consumes them)
 
+## Changes
+
 ## IAC
 `/iac/ansible` - **Ansible** is used to install and configure: **Docker**, **Ignite**, **Fooloose**, **MySQL** (for web), **Flask** and other some python packages [see `/flask/grid`] (for web). The site code is also delivered to the server to `/usr/lib/footloose-vpc/configs`, and its launch is added to the startup via **systemd**
