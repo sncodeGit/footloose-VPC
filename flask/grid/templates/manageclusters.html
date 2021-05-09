@@ -32,6 +32,55 @@ body {
     background-color: #666;
     color: black;
 }
+.rectangle {
+counter-reset: li;
+list-style: none;
+font: 14px "Trebuchet MS", "Lucida Sans";
+padding: 0;
+text-shadow: 0 1px 0 rgba(255,255,255,.5);
+color: black;
+font-size: 17px;
+}
+.rectangle a {
+position: relative;
+display: block;
+padding: .4em .4em .4em .8em;
+margin: .5em 0 .5em 2.5em;
+<!--background: #D3D4DA;-->
+color: #444;
+text-decoration: none;
+transition: all .3s ease-out;
+color: black;
+}
+.rectangle a:hover {background: #DCDDE1;}
+.rectangle a:before {
+content: counter(li);
+counter-increment: li;
+position: absolute;
+left: -2.5em;
+top: 50%;
+margin-top: -1em;
+<!--background: #080000;-->
+height: 2em;
+width: 2em;
+line-height: 2em;
+text-align: center;
+font-weight: bold;
+color: black;
+}
+.rectangle a:after {
+position: absolute;
+content: "";
+border: .5em solid transparent;
+left: -1em;
+top: 50%;
+margin-top: -.5em;
+transition: all .3s ease-out;
+color: black;
+}
+.rectangle a:hover:after {
+left: -.5em;
+border-left-color: #9097A2;
 
     </style>
 </head>
@@ -42,32 +91,42 @@ body {
 <a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
-    <table>
-        <tr>
-            <td><a href="{{ url_for('get_info') }}">Get cluster info</a></td>
-        </tr>
+<ol class="rectangle">
+  <li><a href="{{ url_for('get_info') }}">Get cluster info</a></li>
+  <li><a href="{{ url_for('manage') }}">Manage cluster resources</a></li>
+    <li><a href="{{ url_for('stop_cluster') }}">Stop cluster</a></li>
+    <li><a href="{{ url_for('start_cluster') }}">Start cluster</a></li>
+    <li><a href="{{ url_for('delete_cluster') }}">Delete cluster</a></li>
+    <li><a href="{{ url_for('create_cluster') }}">Create cluster</a></li>
+    <li><a href="{{ url_for('add_ssh') }}">Add ssh</a></li>
+    <li><a href="{{ url_for('del_ssh') }}">Delete ssh</a></li>
+</ol>
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('get_info') }}">Get cluster info</a></td>-->
+<!--        </tr>-->
 
-        <tr>
-            <td><a href="{{ url_for('manage') }}">manage cluster resources</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('stop_cluster') }}">Stop cluster</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('start_cluster') }}">Start cluster</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('delete_cluster') }}">Delete cluster</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('create_cluster') }}">create cluster</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('add_ssh') }}">Add ssh</a></td>
-        </tr>
-        <tr>
-            <td><a href="{{ url_for('del_ssh') }}">Delete ssh</a></td>
-        </tr>
-    </table>
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('manage') }}">manage cluster resources</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('stop_cluster') }}">Stop cluster</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('start_cluster') }}">Start cluster</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('delete_cluster') }}">Delete cluster</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('create_cluster') }}">create cluster</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('add_ssh') }}">Add ssh</a></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><a href="{{ url_for('del_ssh') }}">Delete ssh</a></td>-->
+<!--        </tr>-->
+<!--    </table>-->
 </body>
 </html>
