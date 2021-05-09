@@ -77,7 +77,18 @@ select {
     pointer-events: none;
     display: block;
     }
+button {
+            border-radius: 10px;
+            width: 100px;
+            height: 30px;
+            color: white;
+            transition: .2s linear;
+            background: #808080;
+        }
 
+        button:hover {
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #808080;
+        }
     </style>
 </head>
 <body>
@@ -102,7 +113,7 @@ select {
         </td>
         </tr>
         <tr>
-            <td><input type="submit" value="Choose"></td>
+            <td><button type="submit">Choose</button></td>
         </tr>
     </table>
 </form>
