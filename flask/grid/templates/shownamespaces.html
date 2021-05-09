@@ -101,7 +101,7 @@ select {
   {% endif %}
 {% endwith %}
 <form method="POST">
-    <label>Choose namespace:</label>
+    Choose namespace:
 <label><select name="namespaces">
                 {% block namespaces %}
                     {% for elem in namespaces %}
@@ -112,7 +112,7 @@ select {
 </label>
     <br>
      <br>
-<label>Choose User:</label>
+Choose User:
 <label><select name="user">
                 {% block users %}
                     {% for elem in users%}
@@ -123,7 +123,7 @@ select {
 </label>
  <br>
      <br>
-    <label>Choose rights:</label>
+    Choose rights:
 <label><select name="rights">
                 <option>full</option>
                 <option>not full</option>
