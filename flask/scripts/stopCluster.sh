@@ -17,5 +17,4 @@ do
     NOW_NODE=$(echo "${NODE_NAME//%d/${i}}")
     ignite stop "$NOW_NODE"
 done
-echo "${NODE_NAME//%d/}"
 
