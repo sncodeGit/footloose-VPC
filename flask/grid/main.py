@@ -329,7 +329,7 @@ def user():
     id = current_user.get_id()
     user = User.query.filter_by(id=id).first()
     if user.is_admin == 0:
-        return render_template('user.html', conent=str(user.login))
+        return render_template('user.html', content=str(user.login))
     else:
         return redirect(url_for('admin'))
 

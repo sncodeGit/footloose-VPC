@@ -9,6 +9,6 @@ all:
       #     - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzBzF8Ll58TkgRsKzuTSxie/eWycvQeHluGauFLQLT7R8BLB5wseYN7/0IkSn9KVEzsiBB872VDq+qQnmmS0lL4ehmglWvjRKckweopNfU66fBcSD5AdmS5uZkeExNTPNaxvpVa9eG5lv9adjEio7+KeOLGjaC+MHiM/b+s8Mq/EX98+y9L47WP6R5PZBSYG8VLziZ9uCsioPkci025Oi0Gelk4naCaoov2+Ofz1eO/ELxdv3PWy+Qe2e5ojzjo+HKB3nfxtB6tPHX7okPVf+Tmsos/ZX+6VJa29bjqFlw1tywJdP12+g0dPH3IB6Lu4YoNOEJ7fKYiaS3qOemde31hkHvrYL6OiN5pFa/fyAMq8sTBT0P0yNJhUhMWtFx/h7ApPyWBgzV7IxoTnWFcNN1/m32GmlpQf7z268kla3Ie91WpszsToQxjFKaCSSjr23OztDTRtJysu3FiaeFSqRJD9EB6G9UvQtwY7o/h9uxph2un5hDpbezCWI0uLgKDts= jason@jason-Aspire-E5-575G"
   hosts:
     footloose-machine:
-      ansible_ssh_host: 46.161.52.49
+      ansible_ssh_host: 95.213.151.150
       ansible_ssh_user: root
       ansible_python_interpreter: /usr/bin/python3
