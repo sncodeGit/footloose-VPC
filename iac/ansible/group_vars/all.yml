@@ -56,7 +56,7 @@ docker_users: []
 # Ignite
 #############
 
-IGNITE_CNI_VERSION: "v0.8.5"
+IGNITE_CNI_VERSION: "v0.9.0"
 IGNITE_ARCH: "amd64"
 
 #############
