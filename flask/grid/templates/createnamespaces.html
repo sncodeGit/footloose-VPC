@@ -70,6 +70,17 @@ button {
         button:hover {
             box-shadow: 0 0 0 2px white, 0 0 0 4px #808080;
         }
+
+        input[type=text] {
+  width: 300px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  height: 30px;
+}
+input[type=text]:focus {
+  border: 3px solid #555;
+}
     </style>
 </head>
 <body>
@@ -92,6 +103,7 @@ button {
 <form method="POST">
 <label>Enter name:</label>
     <input type="text" name="namespaces">
+    <br>
     <br>
      <button type="submit">Create</button>
 </form>
