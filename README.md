@@ -85,9 +85,9 @@ ssh NAME
 
 We are using this fork `https://github.com/sncodeGit/footloose`, `flvpc` branch (see releases) because v. 0.6.3 (latest ) by default have a problem with ssh to ignite backend
 
-## Overcommitent
+## Overcommitment
 --------------------
-Overcomitent is implemented via Ignite as follows: you can set as many resources as you want (more than there are on the host server), but they will be consumed in competition mode (the first person to "consume" them is the one who consumes them)
+Overcommitment is implemented via Ignite as follows: you can set as many resources as you want (more than there are on the host server), but they will be consumed in competition mode (the first person to "consume" them is the one who consumes them)
 
 ## IAC
 --------------------
