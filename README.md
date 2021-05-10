@@ -42,7 +42,7 @@ https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.ht
 #### Installation
 1. `git clone https://github.com/sncodeGit/footloose-VPC.git`
 2. `cd footloose-VPC/iac/ansible`
-3. Change ip to your server and ssh-keys in **inventory.yml** (ansible_ssh_host variable)
+3. Change ip to your server and ssh-keys in **inventory.yml** (ansible_ssh_host variable) and optional add your ssh-key
 4. `ansible-playbook -i inventory.yml -b main.yml`
 
 ## Usage
