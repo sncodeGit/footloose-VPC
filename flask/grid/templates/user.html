@@ -42,6 +42,10 @@ body {
     <a href="{{ url_for('manage_ssh') }}">Manage ssh</a>
     <a href="{{ url_for('logout') }}">Logout</a>
 </div>
-<h1>User</h1>
+<h1>Welcome, {% block content %}
+                    {% for elem in content %}
+                         {elem[0]}
+                    {% endfor %}
+                {% endblock %}</h1>
 </body>
 </html>
